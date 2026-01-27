@@ -1,0 +1,49 @@
+# ==============================
+# Archivos de video (NO subir)
+# ==============================
+*.mp4
+*.mkv
+*.avi
+*.mov
+*.flv
+*.wmv
+*.webm
+*.m4v
+*.3gp
+*.mpeg
+*.mpg
+*.ts
+*.mts
+*.m2ts
+
+# ==============================
+# Archivos de audio (por si acaso)
+# ==============================
+*.mp3
+*.aac
+*.wav
+*.flac
+*.ogg
+*.m4a
+
+# ==============================
+# Archivos generados por el programa
+# ==============================
+*_compressed.mp4
+*_compressed_*.mp4
+correction_factor.json
+custom_bitrates.json
+
+# ==============================
+# Python
+# ==============================
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# ==============================
+# Termux / sistema
+# ==============================
+.DS_Store
+Thumbs.db
