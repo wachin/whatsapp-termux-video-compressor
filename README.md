@@ -75,7 +75,11 @@ python ffmpegcompressor.py
 
 ## Como cargar el video
 
-En tu administrador de archivos, que puede ser el del teléfono u otro que hayas descargado, ejemplo a mí me gusta usar  Mixplorer y allí veo cuál es el nombre del archivo con su extensión y lo copio tal cual está, ejemplo: 
+En tu administrador de archivos, que puede ser el del teléfono u otro que hayas descargado, ejemplo a mí me gusta usar  Mixplorer, coloca un vídeo en está carpeta: 
+
+ whatsapp-termux-video-compressor
+  
+ y allí veo cuál es el nombre del archivo con su extensión y lo copio tal cual está, ejemplo: 
 
 20260201 Video.mp4
 
