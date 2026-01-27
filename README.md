@@ -53,6 +53,10 @@ Ese último comando permite acceder a la memoria del teléfono.
 python ffmpegcompressor.py
 ```
 
+## 📸 Captura de pantalla
+
+![Interfaz del compresor en Termux](images/20260127_000644_en_Termux.jpg)
+
 ---
 
 ## Controles del programa
