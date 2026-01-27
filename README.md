@@ -10,14 +10,13 @@ Este programa permite reducir el tamaño de un video ajustando calidad, resoluci
 
 Es una aplicación que funciona **dentro de la terminal** (no tiene ventanas gráficas) y permite:
 
-✅ Escribir el nombre de un video que esté en el directorio (a mano)
-✅ Cambiar resolución
-✅ Ajustar calidad (bitrate)
-✅ Cambiar audio
-✅ Ver el tamaño estimado final
-✅ Comprimir el video
-✅ Evitar que se sobrescriban archivos
-✅ Aprender automáticamente a calcular mejor el tamaño
+✅ Escribir el nombre de un video que esté en el directorio (a mano)  
+✅ Cambiar resolución  
+✅ Ajustar calidad (bitrate)  
+✅ Cambiar audio  
+✅ Ver el tamaño estimado aproximado final  
+✅ Comprimir el video  
+✅ Aprender automáticamente a calcular mejor el tamaño  
 
 ---
 
@@ -27,7 +26,7 @@ Este programa está pensado para **Android + Termux**.
 
 ### 1️⃣ Instalar Termux
 
-Desde F-Droid (recomendado).
+Desde F-Droid
 
 ### 2️⃣ Instalar dependencias dentro de Termux
 
@@ -46,8 +45,9 @@ Ese último comando permite acceder a la memoria del teléfono.
 
 ## Cómo ejecutar el programa
 
-1. Entra a esa carpeta desde Termux.
-2. Ejecuta:
+1. Clona o descarga este repositorio
+2. Entra a esa carpeta desde Termux.
+3. Ejecuta:
 
 ```bash
 python ffmpegcompressor.py
@@ -66,6 +66,24 @@ python ffmpegcompressor.py
 | **r**     | Comprimir video                          |
 | **s**     | Detener compresión                       |
 | **q**     | Salir                                    |
+
+---
+
+## Como cargar el video
+
+En tu administrador de archivos, que puede ser el del teléfono u otro que hayas descargado, ejemplo a mí me gusta usar  Mixplorer y allí veo cuál es el nombre del archivo con su extensión y lo copio tal cual está, ejemplo: 
+
+20260201 Video.mp4
+
+Y vuelvo a Termux y doy **Enter** en: 
+
+Archivo de entrada: (vacío)
+
+Y aparecerá el foco del cortador encima de: 
+
+Tamaño estimado: N/A
+
+allí escribir ese nombre y presiona "c" para calcular el tamaño estimado, y "r" para iniciar la compresión, y "s" para detener, y si deseas cambiar algún valor sigue leyendo:
 
 ---
 
@@ -160,16 +178,6 @@ Este programa enseña:
 ✔ Persistencia con JSON
 
 Es un excelente ejemplo de proyecto práctico de informática.
-
----
-
-## Consejo
-
-Si quieres explorar los archivos de tu teléfono usa rutas como:
-
-```
-/storage/emulated/0/Download/video.mp4
-```
 
 ---
 
