@@ -13,8 +13,7 @@ Yo tengo un vídeo en mi celular de 900 MB que lo quería subir a WhatsApp, pero
 
 Es una aplicación que funciona **dentro de la terminal** (no tiene ventanas gráficas) y permite:
 
-✅ Escribir el nombre de un video que esté en el directorio (a mano)  
-✅ Cambiar resolución  
+✅ Cambiar resolución  del vídeo
 ✅ Ajustar calidad de video y audio (bitrate)  
 ✅ Ver el tamaño estimado aproximado final  
 ✅ Comprimir el video  
@@ -203,21 +202,6 @@ video_compressed_2.mp4
 * 🎥 FFmpeg
 * 🖥 curses (interfaz de texto)
 * 📱 Termux (Linux en Android)
-
----
-
-## ¿Para qué sirve aprender con este proyecto?
-
-Este programa enseña:
-
-✔ Manejo de archivos
-✔ Uso de procesos externos (FFmpeg)
-✔ Interfaces de texto
-✔ Cálculo de tamaños digitales
-✔ Automatización
-✔ Persistencia con JSON
-
-Es un excelente ejemplo de proyecto práctico de informática.
 
 ---
 
