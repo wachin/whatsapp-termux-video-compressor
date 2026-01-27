@@ -128,6 +128,37 @@ custom_bitrates.json
 
 ---
 
+## ¿Cuántos formatos de video acepta este programa?
+
+Realmente **no limita formatos**.
+Quien manda aquí es **FFmpeg**.
+
+FFmpeg Acepta **casi todos los formatos de video que existen**.
+
+### 📌 Ejemplos de formatos que FFmpeg suele soportar:
+
+| Tipo        | Formatos comunes         |
+| ----------- | ------------------------ |
+| 📱 Móvil    | MP4, 3GP, MOV            |
+| 💻 PC       | AVI, MKV, WMV            |
+| 🌐 Internet | WEBM, FLV                |
+| 📺 TV/HD    | MPEG, MPG, TS, MTS, M2TS |
+| 🎥 Cámaras  | MOV, MTS, MXF            |
+
+---
+
+### ¿Por qué acepta tantos?
+
+Porque el programa solo hace:
+
+```bash
+ffmpeg -i archivo
+```
+
+Y FFmpeg detecta el formato automáticamente.
+
+---
+
 ## Cálculo de tamaño estimado
 
 El programa calcula cuánto pesará el video antes de comprimir.
