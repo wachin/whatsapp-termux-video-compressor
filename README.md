@@ -4,6 +4,9 @@ Compresor de videos para **Android usando Termux**, hecho en **Python + FFmpeg +
 
 Este programa permite reducir el tamaño de un video ajustando calidad, resolución y audio, ideal para compartir por WhatsApp, Telegram u otras apps.
 
+# Caso de uso
+Yo tengo un vídeo en mi celular de 900 MB que lo quería subir a WhatsApp, pero este me mostró un mensaje que decía que WhatsApp lo iba a recortar hasta dejarlo en 180MB (tenía de duración 10 minutos y si hacía eso lo iba a dejar en menos tiempo), y con este programa lo dejé a menos de 180 MB observando el tamaño aproximado al que iba quedando cuando le iba ajustando los parámetros, y lo comprimí y lo pude enviar completo y WhatsApp no me preguntó nada (o sea no fue necesario recortar el vídeo a menos de 10 minutos, sino que, reduciendo su tamaño a menos de 180 MB pude enviarlo completo).
+
 ---
 
 ## ¿Qué es este programa?
@@ -12,11 +15,9 @@ Es una aplicación que funciona **dentro de la terminal** (no tiene ventanas gr�
 
 ✅ Escribir el nombre de un video que esté en el directorio (a mano)  
 ✅ Cambiar resolución  
-✅ Ajustar calidad (bitrate)  
-✅ Cambiar audio  
+✅ Ajustar calidad de video y audio (bitrate)  
 ✅ Ver el tamaño estimado aproximado final  
 ✅ Comprimir el video  
-✅ Aprender automáticamente a calcular mejor el tamaño  
 
 ---
 
