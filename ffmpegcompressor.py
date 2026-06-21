@@ -223,10 +223,48 @@ def draw_header(stdscr, title: str):
     stdscr.hline(1, 0, curses.ACS_HLINE, w)
 
 
-def draw_footer(stdscr, msg: str):
+def draw_footer(stdscr, msg: str, attr: int = 0):
     h, w = stdscr.getmaxyx()
     stdscr.hline(h - 2, 0, curses.ACS_HLINE, w)
-    stdscr.addnstr(h - 1, 2, msg, max(0, w - 4))
+    stdscr.addnstr(h - 1, 2, msg, max(0, w - 4), attr)
+
+
+def show_termux_help(stdscr) -> None:
+    lines = [
+        "termux-setup-storage",
+        "  Da permiso a Termux para leer y escribir en el almacenamiento compartido.",
+        "  Ejecutalo una vez y acepta el permiso de Android cuando aparezca.",
+        "",
+        "Rutas utiles",
+        "  /storage/emulated/0/        almacenamiento principal del telefono",
+        "  /storage/emulated/0/Download descargas",
+        "  /sdcard/                    alias comun del almacenamiento principal",
+        "",
+        "Dependencias necesarias",
+        "  pkg install python ffmpeg",
+        "",
+        "Uso rapido",
+        "  Flechas: moverse por las opciones.",
+        "  Enter: editar/elegir la opcion marcada.",
+        "  c: recalcular tamaño estimado.",
+        "  r: comprimir / iniciar proceso.",
+        "  s: detener mientras ffmpeg esta comprimiendo.",
+        "  q: salir del compresor.",
+        "",
+        "Archivos locales",
+        f"  {CUSTOM_BITRATES_FILE}: bitrates manuales guardados.",
+        f"  {CORRECTION_FILE}: ajuste del calculo segun resultados reales.",
+    ]
+
+    stdscr.erase()
+    draw_header(stdscr, "Ayuda Termux")
+    h, _ = stdscr.getmaxyx()
+    for i, line in enumerate(lines[: max(0, h - 5)]):
+        attr = curses.A_BOLD if line and not line.startswith(" ") else 0
+        safe_addstr(stdscr, 3 + i, 2, line, attr)
+    draw_footer(stdscr, "Presiona cualquier tecla para volver.")
+    stdscr.refresh()
+    stdscr.getch()
 
 
 def edit_text_popup(stdscr, title: str, initial: str) -> Optional[str]:
@@ -578,6 +616,7 @@ def main_screen(stdscr) -> None:
         ("Sample rate", "sr"),
     ]
     idx = 0
+    help_idx = len(fields)
 
     while True:
         stdscr.erase()
@@ -625,7 +664,8 @@ def main_screen(stdscr) -> None:
         if state.last_error:
             safe_addstr(stdscr, y0 + len(fields) + 9, 2, f"Error: {state.last_error}", curses.A_BOLD)
 
-        draw_footer(stdscr, "Tip Termux: termux-setup-storage para /storage/emulated/0/ ...")
+        footer_attr = curses.A_REVERSE if idx == help_idx else 0
+        draw_footer(stdscr, "Ayuda Termux: termux-setup-storage | Enter ver", footer_attr)
         stdscr.refresh()
 
         ch = stdscr.getch()
@@ -633,9 +673,9 @@ def main_screen(stdscr) -> None:
         if ch in (ord('q'), ord('Q')):
             break
         elif ch == curses.KEY_UP:
-            idx = (idx - 1) % len(fields)
+            idx = (idx - 1) % (len(fields) + 1)
         elif ch == curses.KEY_DOWN:
-            idx = (idx + 1) % len(fields)
+            idx = (idx + 1) % (len(fields) + 1)
         elif ch in (ord('c'), ord('C')):
             calc_estimate(state, video_bitrates, audio_bitrates)
         elif ch in (ord('f'), ord('F')):
@@ -648,7 +688,7 @@ def main_screen(stdscr) -> None:
             run_ffmpeg_screen(stdscr, state, video_bitrates, audio_bitrates)
             # after run, recalc (correction factor might change)
             calc_estimate(state, video_bitrates, audio_bitrates)
-        elif ch in (curses.KEY_LEFT, curses.KEY_RIGHT):
+        elif ch in (curses.KEY_LEFT, curses.KEY_RIGHT) and idx < len(fields):
             direction = -1 if ch == curses.KEY_LEFT else 1
             key = fields[idx][1]
             if key == "scale":
@@ -666,6 +706,10 @@ def main_screen(stdscr) -> None:
             calc_estimate(state, video_bitrates, audio_bitrates)
 
         elif ch in (10, 13, curses.KEY_ENTER):
+            if idx == help_idx:
+                show_termux_help(stdscr)
+                continue
+
             key = fields[idx][1]
             if key == "input":
                 selected = pick_video_file(stdscr, state.input_file or os.getcwd())
