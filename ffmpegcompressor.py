@@ -561,6 +561,11 @@ def main_screen(stdscr) -> None:
     state.ac_idx = AUDIO_CHANNELS.index(1) if 1 in AUDIO_CHANNELS else 0
     state.sr_idx = SAMPLE_RATES.index("44100 Hz") if "44100 Hz" in SAMPLE_RATES else 0
 
+    selected = pick_video_file(stdscr, os.getcwd())
+    if selected is None:
+        return
+    state.input_file = selected
+
     calc_estimate(state, video_bitrates, audio_bitrates)
 
     fields = [
@@ -579,7 +584,7 @@ def main_screen(stdscr) -> None:
         draw_header(stdscr, "Compresor de Video FFmpeg — Termux (curses)")
 
         h, w = stdscr.getmaxyx()
-        safe_addstr(stdscr, 2, 2, "↑↓ mover | ←→ cambiar | Enter editar | f buscar video | c calcular | r comprimir | q salir", curses.A_DIM)
+        safe_addstr(stdscr, 2, 2, "↑↓ mover | Enter elegir/editar | c calcular | r comprimir | q salir", curses.A_DIM)
 
         y0 = 4
         for i, (label, key) in enumerate(fields):
@@ -587,7 +592,7 @@ def main_screen(stdscr) -> None:
             safe_addstr(stdscr, y0 + i, 2, f"{label:16}:", (attr | curses.A_BOLD) if i == idx else curses.A_BOLD)
 
             if key == "input":
-                val = state.input_file or "(vacío)"
+                val = os.path.basename(state.input_file) if state.input_file else "(vacío)"
             elif key == "scale":
                 val = SCALE_OPTIONS[state.scale_idx]
             elif key == "vbr":
@@ -659,9 +664,9 @@ def main_screen(stdscr) -> None:
         elif ch in (10, 13, curses.KEY_ENTER):
             key = fields[idx][1]
             if key == "input":
-                edited = edit_text_popup(stdscr, "Archivo de entrada", state.input_file)
-                if edited is not None:
-                    state.input_file = edited
+                selected = pick_video_file(stdscr, state.input_file or os.getcwd())
+                if selected is not None:
+                    state.input_file = selected
                     calc_estimate(state, video_bitrates, audio_bitrates)
 
             elif key == "vbr":
