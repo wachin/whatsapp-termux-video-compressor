@@ -27,6 +27,7 @@ import os
 import shlex
 import signal
 import subprocess
+import textwrap
 import time
 from dataclasses import dataclass
 from typing import List, Optional, Tuple
@@ -414,13 +415,33 @@ def draw_footer(stdscr, msg: str, attr: int = 0):
     stdscr.addnstr(h - 1, 2, msg, max(0, w - 4), attr)
 
 
+def wrap_help_lines(lines: List[str], width: int) -> List[Tuple[str, bool]]:
+    wrapped = []
+    max_width = max(20, width)
+    for line in lines:
+        if not line:
+            wrapped.append(("", False))
+            continue
+
+        is_heading = not line.startswith(" ")
+        indent = len(line) - len(line.lstrip(" "))
+        prefix = " " * indent
+        text = line.strip()
+
+        for part in textwrap.wrap(text, width=max_width - indent, break_long_words=False) or [""]:
+            wrapped.append((prefix + part, is_heading))
+            is_heading = False
+    return wrapped
+
+
 def show_termux_help(stdscr, lang: str) -> None:
     lines = TEXT.get(lang, TEXT["en"])["help_lines"]
     stdscr.erase()
     draw_header(stdscr, t(lang, "help_title"))
-    h, _ = stdscr.getmaxyx()
-    for i, line in enumerate(lines[: max(0, h - 5)]):
-        attr = curses.A_BOLD if line and not line.startswith(" ") else 0
+    h, w = stdscr.getmaxyx()
+    visible_lines = wrap_help_lines(lines, max(20, w - 4))[: max(0, h - 5)]
+    for i, (line, is_heading) in enumerate(visible_lines):
+        attr = curses.A_BOLD if line and is_heading else 0
         safe_addstr(stdscr, 3 + i, 2, line, attr)
     draw_footer(stdscr, t(lang, "help_back"))
     stdscr.refresh()
