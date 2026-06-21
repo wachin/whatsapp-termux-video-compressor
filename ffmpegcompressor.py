@@ -40,6 +40,179 @@ SCALE_OPTIONS = [
     "scale=512:288 Horizontal",
     "scale=288:512 Vertical",
 ]
+SCALE_LABELS = {
+    "en": [
+        "scale=512:288 Landscape",
+        "scale=288:512 Portrait",
+    ],
+    "es": [
+        "scale=512:288 Horizontal",
+        "scale=288:512 Vertical",
+    ],
+}
+
+TEXT = {
+    "en": {
+        "lang_title": "Select Language",
+        "lang_footer": "↑↓ move | Enter select | q/ESC quit",
+        "help_title": "Termux Help",
+        "help_back": "Press any key to return.",
+        "help_lines": [
+            "termux-setup-storage",
+            "  Allows Termux to read and write shared storage.",
+            "  Run it once and accept the Android permission prompt.",
+            "",
+            "Useful paths",
+            "  /storage/emulated/0/        phone shared storage",
+            "  /storage/emulated/0/Download downloads",
+            "  /sdcard/                    common shared-storage alias",
+            "",
+            "Required dependencies",
+            "  pkg install python ffmpeg",
+            "",
+            "Quick use",
+            "  Arrows: move through options.",
+            "  Enter: edit/select the highlighted option.",
+            "  c: recalculate estimated size.",
+            "  r: compress / start process.",
+            "  s: stop while ffmpeg is compressing.",
+            "  q: exit the compressor.",
+            "",
+            "Local files",
+            f"  {CUSTOM_BITRATES_FILE}: saved manual bitrates.",
+            f"  {CORRECTION_FILE}: estimate adjustment from real results.",
+        ],
+        "path_prompt": "File path (paste or type):",
+        "browser_title": "Select video",
+        "folder": "Folder",
+        "empty_browser": "(no folders or supported videos)",
+        "browser_footer": "↑↓ move | Enter open/select | q/ESC cancel",
+        "int_prompt": "Type a number ({min_v}–{max_v}) and press Enter:",
+        "esc_cancel": "ESC = cancel",
+        "missing_input": "File not found.",
+        "missing_ffprobe": "ffprobe was not found. In Termux: pkg install ffmpeg",
+        "ffprobe_failed": "ffprobe failed. Is ffprobe/ffmpeg installed in Termux?",
+        "run_title": "FFmpeg Compressor (curses) — Running",
+        "no_valid_file": "No valid file. Press any key to return.",
+        "command": "Command:",
+        "keys": "Keys: ",
+        "run_keys": "s=Stop   q=Back (stops first if running)",
+        "missing_ffmpeg": "ffmpeg was not found. In Termux: pkg install ffmpeg",
+        "ffmpeg_start_error": "Could not run ffmpeg: {error}",
+        "result_title": "FFmpeg Compressor (curses) — Result",
+        "stopped": "Status: Process stopped by user.",
+        "success": "Status: Success. Compressed video saved.",
+        "output": "Output",
+        "correction_updated": "Correction factor updated: {factor:.4f} (n={n})",
+        "real_size": "Real size: {size:.2f} MB",
+        "correction_failed": "Could not update factor: {error}",
+        "failed": "Status: Failed (code {code}).",
+        "check_output": "Check the previous output (ffmpeg).",
+        "back_menu": "Press any key to return to the menu.",
+        "main_title": "FFmpeg Video Compressor — Termux (curses)",
+        "main_nav": "↑↓ move | Enter select/edit",
+        "input_file": "Input file",
+        "scale": "Scale",
+        "video_bitrate": "Video bitrate (k)",
+        "framerate": "Framerate",
+        "audio_channels": "Audio channels",
+        "audio_bitrate": "Audio bitrate (k)",
+        "sample_rate": "Sample rate",
+        "empty": "(empty)",
+        "estimated_size_na": "Estimated size: N/A",
+        "estimated_size": "Estimated size: {size:.2f} MB",
+        "correction_factor": "Correction factor: {factor:.4f} (n={n})",
+        "custom_bitrates": "Manual bitrates saved in: {file}",
+        "help_c": "• c: recalculate estimated size",
+        "help_r": "• r: compress / start process",
+        "help_s": "• s: stop while compressing",
+        "help_q": "• q: exit",
+        "termux_footer": "Termux Help: termux-setup-storage | Enter view",
+        "video_bitrate_title": "Video bitrate (kbit/s)",
+        "audio_bitrate_title": "Audio bitrate (kbit/s)",
+        "error": "Error",
+    },
+    "es": {
+        "lang_title": "Seleccionar idioma",
+        "lang_footer": "↑↓ mover | Enter elegir | q/ESC salir",
+        "help_title": "Ayuda Termux",
+        "help_back": "Presiona cualquier tecla para volver.",
+        "help_lines": [
+            "termux-setup-storage",
+            "  Da permiso a Termux para leer y escribir en el almacenamiento compartido.",
+            "  Ejecutalo una vez y acepta el permiso de Android cuando aparezca.",
+            "",
+            "Rutas utiles",
+            "  /storage/emulated/0/        almacenamiento principal del telefono",
+            "  /storage/emulated/0/Download descargas",
+            "  /sdcard/                    alias comun del almacenamiento principal",
+            "",
+            "Dependencias necesarias",
+            "  pkg install python ffmpeg",
+            "",
+            "Uso rapido",
+            "  Flechas: moverse por las opciones.",
+            "  Enter: editar/elegir la opcion marcada.",
+            "  c: recalcular tamaño estimado.",
+            "  r: comprimir / iniciar proceso.",
+            "  s: detener mientras ffmpeg esta comprimiendo.",
+            "  q: salir del compresor.",
+            "",
+            "Archivos locales",
+            f"  {CUSTOM_BITRATES_FILE}: bitrates manuales guardados.",
+            f"  {CORRECTION_FILE}: ajuste del calculo segun resultados reales.",
+        ],
+        "path_prompt": "Ruta del archivo (pega o escribe):",
+        "browser_title": "Seleccionar video",
+        "folder": "Carpeta",
+        "empty_browser": "(sin carpetas ni videos soportados)",
+        "browser_footer": "↑↓ mover | Enter abrir/elegir | q/ESC cancelar",
+        "int_prompt": "Escribe un número ({min_v}–{max_v}) y presiona Enter:",
+        "esc_cancel": "ESC = cancelar",
+        "missing_input": "Archivo no encontrado.",
+        "missing_ffprobe": "No se encontró ffprobe. En Termux: pkg install ffmpeg",
+        "ffprobe_failed": "ffprobe falló. ¿Existe ffprobe/ffmpeg en Termux?",
+        "run_title": "Compresor FFmpeg (curses) — Ejecutando",
+        "no_valid_file": "No hay archivo válido. Presiona cualquier tecla para volver.",
+        "command": "Comando:",
+        "keys": "Teclas: ",
+        "run_keys": "s=Detener   q=Volver (si está corriendo, detiene primero)",
+        "missing_ffmpeg": "No se encontró ffmpeg. En Termux: pkg install ffmpeg",
+        "ffmpeg_start_error": "No se pudo ejecutar ffmpeg: {error}",
+        "result_title": "Compresor FFmpeg (curses) — Resultado",
+        "stopped": "Estado: Proceso detenido por el usuario.",
+        "success": "Estado: Éxito. Video comprimido guardado.",
+        "output": "Salida",
+        "correction_updated": "Factor de corrección actualizado: {factor:.4f} (n={n})",
+        "real_size": "Tamaño real: {size:.2f} MB",
+        "correction_failed": "No se pudo actualizar el factor: {error}",
+        "failed": "Estado: Falló (código {code}).",
+        "check_output": "Revisa la salida anterior (ffmpeg).",
+        "back_menu": "Presiona cualquier tecla para volver al menú.",
+        "main_title": "Compresor de Video FFmpeg — Termux (curses)",
+        "main_nav": "↑↓ mover | Enter elegir/editar",
+        "input_file": "Archivo de entrada",
+        "scale": "Escala",
+        "video_bitrate": "Bitrate video (k)",
+        "framerate": "Fotogramas/s",
+        "audio_channels": "Canales audio",
+        "audio_bitrate": "Bitrate audio (k)",
+        "sample_rate": "Frecuencia audio",
+        "empty": "(vacío)",
+        "estimated_size_na": "Tamaño estimado: N/A",
+        "estimated_size": "Tamaño estimado: {size:.2f} MB",
+        "correction_factor": "Factor de corrección: {factor:.4f} (n={n})",
+        "custom_bitrates": "Bitrates manuales guardados en: {file}",
+        "help_c": "• c: recalcular tamaño estimado",
+        "help_r": "• r: comprimir / iniciar proceso",
+        "help_s": "• s: detener mientras está comprimiendo",
+        "help_q": "• q: salir",
+        "termux_footer": "Ayuda Termux: termux-setup-storage | Enter ver",
+        "video_bitrate_title": "Bitrate de video (kbit/s)",
+        "audio_bitrate_title": "Bitrate de audio (kbit/s)",
+        "error": "Error",
+    },
+}
 
 # Requested fixed base lists
 VIDEO_BITRATES_BASE = [550, 500, 450, 400, 350, 300, 250, 200, 180, 170, 160, 150, 145, 140, 130]
@@ -52,6 +225,18 @@ VIDEO_EXTENSIONS = {
     ".mp4", ".mkv", ".avi", ".mov", ".flv", ".wmv", ".webm", ".m4v",
     ".3gp", ".mpeg", ".mpg", ".ts", ".mts", ".m2ts",
 }
+
+
+def t(lang: str, key: str, **kwargs) -> str:
+    text = TEXT.get(lang, TEXT["en"]).get(key, TEXT["en"].get(key, key))
+    if kwargs:
+        return text.format(**kwargs)
+    return text
+
+
+def scale_display(lang: str, idx: int) -> str:
+    labels = SCALE_LABELS.get(lang, SCALE_LABELS["en"])
+    return labels[idx]
 
 
 def load_correction_factor() -> Tuple[float, int]:
@@ -229,45 +414,20 @@ def draw_footer(stdscr, msg: str, attr: int = 0):
     stdscr.addnstr(h - 1, 2, msg, max(0, w - 4), attr)
 
 
-def show_termux_help(stdscr) -> None:
-    lines = [
-        "termux-setup-storage",
-        "  Da permiso a Termux para leer y escribir en el almacenamiento compartido.",
-        "  Ejecutalo una vez y acepta el permiso de Android cuando aparezca.",
-        "",
-        "Rutas utiles",
-        "  /storage/emulated/0/        almacenamiento principal del telefono",
-        "  /storage/emulated/0/Download descargas",
-        "  /sdcard/                    alias comun del almacenamiento principal",
-        "",
-        "Dependencias necesarias",
-        "  pkg install python ffmpeg",
-        "",
-        "Uso rapido",
-        "  Flechas: moverse por las opciones.",
-        "  Enter: editar/elegir la opcion marcada.",
-        "  c: recalcular tamaño estimado.",
-        "  r: comprimir / iniciar proceso.",
-        "  s: detener mientras ffmpeg esta comprimiendo.",
-        "  q: salir del compresor.",
-        "",
-        "Archivos locales",
-        f"  {CUSTOM_BITRATES_FILE}: bitrates manuales guardados.",
-        f"  {CORRECTION_FILE}: ajuste del calculo segun resultados reales.",
-    ]
-
+def show_termux_help(stdscr, lang: str) -> None:
+    lines = TEXT.get(lang, TEXT["en"])["help_lines"]
     stdscr.erase()
-    draw_header(stdscr, "Ayuda Termux")
+    draw_header(stdscr, t(lang, "help_title"))
     h, _ = stdscr.getmaxyx()
     for i, line in enumerate(lines[: max(0, h - 5)]):
         attr = curses.A_BOLD if line and not line.startswith(" ") else 0
         safe_addstr(stdscr, 3 + i, 2, line, attr)
-    draw_footer(stdscr, "Presiona cualquier tecla para volver.")
+    draw_footer(stdscr, t(lang, "help_back"))
     stdscr.refresh()
     stdscr.getch()
 
 
-def edit_text_popup(stdscr, title: str, initial: str) -> Optional[str]:
+def edit_text_popup(stdscr, title: str, initial: str, lang: str) -> Optional[str]:
     h, w = stdscr.getmaxyx()
     ph = 7
     pw = min(max(50, len(initial) + 10), max(20, w - 4))
@@ -276,7 +436,7 @@ def edit_text_popup(stdscr, title: str, initial: str) -> Optional[str]:
     win = curses.newwin(ph, pw, y, x)
     win.border()
     safe_addstr(win, 0, 2, f" {title} ", curses.A_BOLD)
-    safe_addstr(win, 2, 2, "Ruta del archivo (pega o escribe):")
+    safe_addstr(win, 2, 2, t(lang, "path_prompt"))
 
     box = curses.newwin(1, pw - 4, y + 4, x + 2)
     box.addnstr(0, 0, initial, max(0, pw - 5))
@@ -295,6 +455,33 @@ def edit_text_popup(stdscr, title: str, initial: str) -> Optional[str]:
     if not s:
         return None
     return s
+
+
+def select_language(stdscr) -> Optional[str]:
+    options = [("en", "English"), ("es", "Español")]
+    idx = 0
+
+    while True:
+        stdscr.erase()
+        draw_header(stdscr, "Select Language / Seleccionar idioma")
+        safe_addstr(stdscr, 3, 2, "Default: English", curses.A_DIM)
+
+        for row, (_lang, label) in enumerate(options):
+            attr = curses.A_REVERSE if row == idx else 0
+            safe_addstr(stdscr, 5 + row, 4, label, attr)
+
+        draw_footer(stdscr, "↑↓ move/mover | Enter select/elegir | q/ESC quit/salir")
+        stdscr.refresh()
+
+        ch = stdscr.getch()
+        if ch in (ord("q"), ord("Q"), 27):
+            return None
+        if ch == curses.KEY_UP:
+            idx = (idx - 1) % len(options)
+        elif ch == curses.KEY_DOWN:
+            idx = (idx + 1) % len(options)
+        elif ch in (10, 13, curses.KEY_ENTER):
+            return options[idx][0]
 
 
 def list_video_browser_entries(directory: str) -> Tuple[List[Tuple[str, str]], Optional[str]]:
@@ -320,7 +507,7 @@ def list_video_browser_entries(directory: str) -> Tuple[List[Tuple[str, str]], O
     return entries, error
 
 
-def pick_video_file(stdscr, start_path: str) -> Optional[str]:
+def pick_video_file(stdscr, start_path: str, lang: str) -> Optional[str]:
     current_dir = os.path.abspath(os.path.expanduser(start_path or os.getcwd()))
     if os.path.isfile(current_dir):
         current_dir = os.path.dirname(current_dir)
@@ -338,11 +525,11 @@ def pick_video_file(stdscr, start_path: str) -> Optional[str]:
             idx = max(0, len(entries) - 1)
 
         stdscr.erase()
-        draw_header(stdscr, "Seleccionar video")
+        draw_header(stdscr, t(lang, "browser_title"))
         h, w = stdscr.getmaxyx()
-        safe_addstr(stdscr, 2, 2, f"Carpeta: {current_dir}", curses.A_BOLD)
+        safe_addstr(stdscr, 2, 2, f"{t(lang, 'folder')}: {current_dir}", curses.A_BOLD)
         if last_error:
-            safe_addstr(stdscr, 3, 2, f"Error: {last_error}", curses.A_BOLD)
+            safe_addstr(stdscr, 3, 2, f"{t(lang, 'error')}: {last_error}", curses.A_BOLD)
 
         list_y = 4
         visible = max(1, h - 7)
@@ -352,14 +539,14 @@ def pick_video_file(stdscr, start_path: str) -> Optional[str]:
             top = idx - visible + 1
 
         if not entries:
-            safe_addstr(stdscr, list_y, 2, "(sin carpetas ni videos soportados)")
+            safe_addstr(stdscr, list_y, 2, t(lang, "empty_browser"))
         else:
             for row, (label, path) in enumerate(entries[top:top + visible]):
                 attr = curses.A_REVERSE if top + row == idx else 0
                 prefix = "[D] " if os.path.isdir(path) else "[V] "
                 safe_addstr(stdscr, list_y + row, 2, prefix + label, attr)
 
-        draw_footer(stdscr, "↑↓ mover | Enter abrir/elegir | q/ESC cancelar")
+        draw_footer(stdscr, t(lang, "browser_footer"))
         stdscr.refresh()
 
         ch = stdscr.getch()
@@ -380,7 +567,7 @@ def pick_video_file(stdscr, start_path: str) -> Optional[str]:
                 return selected
 
 
-def edit_int_popup(stdscr, title: str, initial: int, min_v: int = 10, max_v: int = 50000) -> Optional[int]:
+def edit_int_popup(stdscr, title: str, initial: int, lang: str, min_v: int = 10, max_v: int = 50000) -> Optional[int]:
     h, w = stdscr.getmaxyx()
     ph = 9
     pw = min(60, max(20, w - 4))
@@ -389,8 +576,8 @@ def edit_int_popup(stdscr, title: str, initial: int, min_v: int = 10, max_v: int
     win = curses.newwin(ph, pw, y, x)
     win.border()
     safe_addstr(win, 0, 2, f" {title} ", curses.A_BOLD)
-    safe_addstr(win, 2, 2, f"Escribe un número ({min_v}–{max_v}) y presiona Enter:")
-    safe_addstr(win, 3, 2, "ESC = cancelar")
+    safe_addstr(win, 2, 2, t(lang, "int_prompt", min_v=min_v, max_v=max_v))
+    safe_addstr(win, 3, 2, t(lang, "esc_cancel"))
 
     box = curses.newwin(1, pw - 4, y + 5, x + 2)
     box.addnstr(0, 0, str(initial), max(0, pw - 5))
@@ -419,14 +606,14 @@ def edit_int_popup(stdscr, title: str, initial: int, min_v: int = 10, max_v: int
     return val
 
 
-def calc_estimate(state: AppState, video_bitrates: List[int], audio_bitrates: List[int]) -> None:
+def calc_estimate(state: AppState, video_bitrates: List[int], audio_bitrates: List[int], lang: str) -> None:
     state.last_error = ""
     if not state.input_file:
         state.estimated_mb = None
         return
     if not os.path.isfile(state.input_file):
         state.estimated_mb = None
-        state.last_error = "Archivo no encontrado."
+        state.last_error = t(lang, "missing_input")
         return
     try:
         dur = ffprobe_duration_seconds(state.input_file)
@@ -435,22 +622,22 @@ def calc_estimate(state: AppState, video_bitrates: List[int], audio_bitrates: Li
         state.estimated_mb = estimate_size_mb(dur, v_kbps, a_kbps, state.correction_factor)
     except FileNotFoundError:
         state.estimated_mb = None
-        state.last_error = "No se encontró ffprobe. En Termux: pkg install ffmpeg"
+        state.last_error = t(lang, "missing_ffprobe")
     except subprocess.CalledProcessError:
         state.estimated_mb = None
-        state.last_error = "ffprobe falló. ¿Existe ffprobe/ffmpeg en Termux?"
+        state.last_error = t(lang, "ffprobe_failed")
     except Exception as e:
         state.estimated_mb = None
-        state.last_error = f"Error: {e}"
+        state.last_error = str(e)
 
 
-def run_ffmpeg_screen(stdscr, state: AppState, video_bitrates: List[int], audio_bitrates: List[int]) -> None:
+def run_ffmpeg_screen(stdscr, state: AppState, video_bitrates: List[int], audio_bitrates: List[int], lang: str) -> None:
     stdscr.clear()
-    draw_header(stdscr, "Compresor FFmpeg (curses) — Ejecutando")
+    draw_header(stdscr, t(lang, "run_title"))
     h, w = stdscr.getmaxyx()
 
     if not state.input_file or not os.path.isfile(state.input_file):
-        draw_footer(stdscr, "No hay archivo válido. Presiona cualquier tecla para volver.")
+        draw_footer(stdscr, t(lang, "no_valid_file"))
         stdscr.refresh()
         stdscr.getch()
         return
@@ -471,10 +658,10 @@ def run_ffmpeg_screen(stdscr, state: AppState, video_bitrates: List[int], audio_
     out_win.idlok(True)
     out_win.border()
 
-    safe_addstr(stdscr, 2, 2, "Comando:", curses.A_BOLD)
+    safe_addstr(stdscr, 2, 2, t(lang, "command"), curses.A_BOLD)
     safe_addstr(stdscr, 2, 11, " ".join(shlex.quote(arg) for arg in cmd)[: max(0, w - 12)])
-    safe_addstr(stdscr, h - 3, 2, "Teclas: ", curses.A_BOLD)
-    safe_addstr(stdscr, h - 3, 10, "s=Stop   q=Volver (si está corriendo, detiene primero)")
+    safe_addstr(stdscr, h - 3, 2, t(lang, "keys"), curses.A_BOLD)
+    safe_addstr(stdscr, h - 3, 10, t(lang, "run_keys"))
 
     stdscr.refresh()
     out_win.refresh()
@@ -489,12 +676,12 @@ def run_ffmpeg_screen(stdscr, state: AppState, video_bitrates: List[int], audio_
             preexec_fn=os.setsid if hasattr(os, "setsid") else None,
         )
     except FileNotFoundError:
-        draw_footer(stdscr, "No se encontró ffmpeg. En Termux: pkg install ffmpeg")
+        draw_footer(stdscr, t(lang, "missing_ffmpeg"))
         stdscr.refresh()
         stdscr.getch()
         return
     except Exception as e:
-        draw_footer(stdscr, f"No se pudo ejecutar ffmpeg: {e}")
+        draw_footer(stdscr, t(lang, "ffmpeg_start_error", error=e))
         stdscr.refresh()
         stdscr.getch()
         return
@@ -554,27 +741,27 @@ def run_ffmpeg_screen(stdscr, state: AppState, video_bitrates: List[int], audio_
         rc = proc.poll()
 
     stdscr.clear()
-    draw_header(stdscr, "Compresor FFmpeg (curses) — Resultado")
+    draw_header(stdscr, t(lang, "result_title"))
 
     if stopped:
-        safe_addstr(stdscr, 3, 2, "Estado: Proceso detenido por el usuario.", curses.A_BOLD)
+        safe_addstr(stdscr, 3, 2, t(lang, "stopped"), curses.A_BOLD)
     elif rc == 0:
-        safe_addstr(stdscr, 3, 2, "Estado: Éxito. Video comprimido guardado.", curses.A_BOLD)
-        safe_addstr(stdscr, 5, 2, f"Salida: {output_file}")
+        safe_addstr(stdscr, 3, 2, t(lang, "success"), curses.A_BOLD)
+        safe_addstr(stdscr, 5, 2, f"{t(lang, 'output')}: {output_file}")
         try:
             # Update correction factor (and persist)
             new_factor, new_n = update_correction_with_result(state.estimated_mb, state.correction_factor, state.correction_n, output_file)
             state.correction_factor, state.correction_n = new_factor, new_n
             save_correction_factor(state.correction_factor, state.correction_n)
-            safe_addstr(stdscr, 7, 2, f"Factor de corrección actualizado: {state.correction_factor:.4f} (n={state.correction_n})")
-            safe_addstr(stdscr, 8, 2, f"Tamaño real: {get_file_size_mb(output_file):.2f} MB")
+            safe_addstr(stdscr, 7, 2, t(lang, "correction_updated", factor=state.correction_factor, n=state.correction_n))
+            safe_addstr(stdscr, 8, 2, t(lang, "real_size", size=get_file_size_mb(output_file)))
         except Exception as e:
-            safe_addstr(stdscr, 7, 2, f"No se pudo actualizar el factor: {e}")
+            safe_addstr(stdscr, 7, 2, t(lang, "correction_failed", error=e))
     else:
-        safe_addstr(stdscr, 3, 2, f"Estado: Falló (código {rc}).", curses.A_BOLD)
-        safe_addstr(stdscr, 5, 2, "Revisa la salida anterior (ffmpeg).")
+        safe_addstr(stdscr, 3, 2, t(lang, "failed", code=rc), curses.A_BOLD)
+        safe_addstr(stdscr, 5, 2, t(lang, "check_output"))
 
-    draw_footer(stdscr, "Presiona cualquier tecla para volver al menú.")
+    draw_footer(stdscr, t(lang, "back_menu"))
     stdscr.refresh()
     stdscr.getch()
 
@@ -583,6 +770,10 @@ def main_screen(stdscr) -> None:
     curses.curs_set(0)
     curses.use_default_colors()
     stdscr.keypad(True)
+
+    lang = select_language(stdscr)
+    if lang is None:
+        return
 
     # Load persistent values
     state = AppState()
@@ -599,31 +790,31 @@ def main_screen(stdscr) -> None:
     state.ac_idx = AUDIO_CHANNELS.index(1) if 1 in AUDIO_CHANNELS else 0
     state.sr_idx = SAMPLE_RATES.index("44100 Hz") if "44100 Hz" in SAMPLE_RATES else 0
 
-    selected = pick_video_file(stdscr, os.getcwd())
+    selected = pick_video_file(stdscr, os.getcwd(), lang)
     if selected is None:
         return
     state.input_file = selected
 
-    calc_estimate(state, video_bitrates, audio_bitrates)
+    calc_estimate(state, video_bitrates, audio_bitrates, lang)
 
     fields = [
-        ("Archivo de entrada", "input"),
-        ("Escala", "scale"),
-        ("Bitrate video (k)", "vbr"),
-        ("Framerate", "fr"),
-        ("Canales audio", "ac"),
-        ("Bitrate audio (k)", "abr"),
-        ("Sample rate", "sr"),
+        (t(lang, "input_file"), "input"),
+        (t(lang, "scale"), "scale"),
+        (t(lang, "video_bitrate"), "vbr"),
+        (t(lang, "framerate"), "fr"),
+        (t(lang, "audio_channels"), "ac"),
+        (t(lang, "audio_bitrate"), "abr"),
+        (t(lang, "sample_rate"), "sr"),
     ]
     idx = 0
     help_idx = len(fields)
 
     while True:
         stdscr.erase()
-        draw_header(stdscr, "Compresor de Video FFmpeg — Termux (curses)")
+        draw_header(stdscr, t(lang, "main_title"))
 
         h, w = stdscr.getmaxyx()
-        safe_addstr(stdscr, 2, 2, "↑↓ mover | Enter elegir/editar", curses.A_DIM)
+        safe_addstr(stdscr, 2, 2, t(lang, "main_nav"), curses.A_DIM)
 
         y0 = 3
         for i, (label, key) in enumerate(fields):
@@ -631,9 +822,9 @@ def main_screen(stdscr) -> None:
             safe_addstr(stdscr, y0 + i, 2, f"{label:16}:", (attr | curses.A_BOLD) if i == idx else curses.A_BOLD)
 
             if key == "input":
-                val = os.path.basename(state.input_file) if state.input_file else "(vacío)"
+                val = os.path.basename(state.input_file) if state.input_file else t(lang, "empty")
             elif key == "scale":
-                val = SCALE_OPTIONS[state.scale_idx]
+                val = scale_display(lang, state.scale_idx)
             elif key == "vbr":
                 val = str(video_bitrates[state.vbr_idx])
             elif key == "fr":
@@ -649,23 +840,23 @@ def main_screen(stdscr) -> None:
 
             safe_addstr(stdscr, y0 + i, 22, val, attr)
 
-        est_line = "Tamaño estimado: N/A"
+        est_line = t(lang, "estimated_size_na")
         if state.estimated_mb is not None:
-            est_line = f"Tamaño estimado: {state.estimated_mb:.2f} MB"
+            est_line = t(lang, "estimated_size", size=state.estimated_mb)
         safe_addstr(stdscr, y0 + len(fields) + 1, 2, est_line, curses.A_BOLD)
 
-        safe_addstr(stdscr, y0 + len(fields) + 2, 2, f"Factor de corrección: {state.correction_factor:.4f} (n={state.correction_n})")
-        safe_addstr(stdscr, y0 + len(fields) + 3, 2, f"Bitrates manuales guardados en: {CUSTOM_BITRATES_FILE}", curses.A_DIM)
-        safe_addstr(stdscr, y0 + len(fields) + 4, 2, "• c: recalcular tamaño estimado", curses.A_DIM)
-        safe_addstr(stdscr, y0 + len(fields) + 5, 2, "• r: comprimir / iniciar proceso", curses.A_DIM)
-        safe_addstr(stdscr, y0 + len(fields) + 6, 2, "• s: detener mientras está comprimiendo", curses.A_DIM)
-        safe_addstr(stdscr, y0 + len(fields) + 7, 2, "• q: salir", curses.A_DIM)
+        safe_addstr(stdscr, y0 + len(fields) + 2, 2, t(lang, "correction_factor", factor=state.correction_factor, n=state.correction_n))
+        safe_addstr(stdscr, y0 + len(fields) + 3, 2, t(lang, "custom_bitrates", file=CUSTOM_BITRATES_FILE), curses.A_DIM)
+        safe_addstr(stdscr, y0 + len(fields) + 4, 2, t(lang, "help_c"), curses.A_DIM)
+        safe_addstr(stdscr, y0 + len(fields) + 5, 2, t(lang, "help_r"), curses.A_DIM)
+        safe_addstr(stdscr, y0 + len(fields) + 6, 2, t(lang, "help_s"), curses.A_DIM)
+        safe_addstr(stdscr, y0 + len(fields) + 7, 2, t(lang, "help_q"), curses.A_DIM)
 
         if state.last_error:
-            safe_addstr(stdscr, y0 + len(fields) + 9, 2, f"Error: {state.last_error}", curses.A_BOLD)
+            safe_addstr(stdscr, y0 + len(fields) + 9, 2, f"{t(lang, 'error')}: {state.last_error}", curses.A_BOLD)
 
         footer_attr = curses.A_REVERSE if idx == help_idx else 0
-        draw_footer(stdscr, "Ayuda Termux: termux-setup-storage | Enter ver", footer_attr)
+        draw_footer(stdscr, t(lang, "termux_footer"), footer_attr)
         stdscr.refresh()
 
         ch = stdscr.getch()
@@ -677,17 +868,17 @@ def main_screen(stdscr) -> None:
         elif ch == curses.KEY_DOWN:
             idx = (idx + 1) % (len(fields) + 1)
         elif ch in (ord('c'), ord('C')):
-            calc_estimate(state, video_bitrates, audio_bitrates)
+            calc_estimate(state, video_bitrates, audio_bitrates, lang)
         elif ch in (ord('f'), ord('F')):
-            selected = pick_video_file(stdscr, state.input_file or os.getcwd())
+            selected = pick_video_file(stdscr, state.input_file or os.getcwd(), lang)
             if selected is not None:
                 state.input_file = selected
-                calc_estimate(state, video_bitrates, audio_bitrates)
+                calc_estimate(state, video_bitrates, audio_bitrates, lang)
         elif ch in (ord('r'), ord('R')):
-            calc_estimate(state, video_bitrates, audio_bitrates)
-            run_ffmpeg_screen(stdscr, state, video_bitrates, audio_bitrates)
+            calc_estimate(state, video_bitrates, audio_bitrates, lang)
+            run_ffmpeg_screen(stdscr, state, video_bitrates, audio_bitrates, lang)
             # after run, recalc (correction factor might change)
-            calc_estimate(state, video_bitrates, audio_bitrates)
+            calc_estimate(state, video_bitrates, audio_bitrates, lang)
         elif ch in (curses.KEY_LEFT, curses.KEY_RIGHT) and idx < len(fields):
             direction = -1 if ch == curses.KEY_LEFT else 1
             key = fields[idx][1]
@@ -703,22 +894,22 @@ def main_screen(stdscr) -> None:
                 state.abr_idx = (state.abr_idx + direction) % len(audio_bitrates)
             elif key == "sr":
                 state.sr_idx = (state.sr_idx + direction) % len(SAMPLE_RATES)
-            calc_estimate(state, video_bitrates, audio_bitrates)
+            calc_estimate(state, video_bitrates, audio_bitrates, lang)
 
         elif ch in (10, 13, curses.KEY_ENTER):
             if idx == help_idx:
-                show_termux_help(stdscr)
+                show_termux_help(stdscr, lang)
                 continue
 
             key = fields[idx][1]
             if key == "input":
-                selected = pick_video_file(stdscr, state.input_file or os.getcwd())
+                selected = pick_video_file(stdscr, state.input_file or os.getcwd(), lang)
                 if selected is not None:
                     state.input_file = selected
-                    calc_estimate(state, video_bitrates, audio_bitrates)
+                    calc_estimate(state, video_bitrates, audio_bitrates, lang)
 
             elif key == "vbr":
-                val = edit_int_popup(stdscr, "Bitrate de video (kbit/s)", int(video_bitrates[state.vbr_idx]))
+                val = edit_int_popup(stdscr, t(lang, "video_bitrate_title"), int(video_bitrates[state.vbr_idx]), lang)
                 if val is not None:
                     state.vbr_idx = insert_value_sorted_desc(video_bitrates, int(val))
                     # Persist custom value if it wasn't in base
@@ -726,16 +917,16 @@ def main_screen(stdscr) -> None:
                         custom_v = merge_sorted_desc(custom_v, [val])
                         # Store ascending/descending? store descending
                         save_custom_bitrates(sorted(set(custom_v), reverse=True), sorted(set(custom_a), reverse=True))
-                    calc_estimate(state, video_bitrates, audio_bitrates)
+                    calc_estimate(state, video_bitrates, audio_bitrates, lang)
 
             elif key == "abr":
-                val = edit_int_popup(stdscr, "Bitrate de audio (kbit/s)", int(audio_bitrates[state.abr_idx]))
+                val = edit_int_popup(stdscr, t(lang, "audio_bitrate_title"), int(audio_bitrates[state.abr_idx]), lang)
                 if val is not None:
                     state.abr_idx = insert_value_sorted_desc(audio_bitrates, int(val))
                     if val not in AUDIO_BITRATES_BASE:
                         custom_a = merge_sorted_desc(custom_a, [val])
                         save_custom_bitrates(sorted(set(custom_v), reverse=True), sorted(set(custom_a), reverse=True))
-                    calc_estimate(state, video_bitrates, audio_bitrates)
+                    calc_estimate(state, video_bitrates, audio_bitrates, lang)
 
 
 def main():
