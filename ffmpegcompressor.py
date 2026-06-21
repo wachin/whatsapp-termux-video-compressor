@@ -584,9 +584,9 @@ def main_screen(stdscr) -> None:
         draw_header(stdscr, "Compresor de Video FFmpeg — Termux (curses)")
 
         h, w = stdscr.getmaxyx()
-        safe_addstr(stdscr, 2, 2, "↑↓ mover | Enter elegir/editar | c calcular | r comprimir | q salir", curses.A_DIM)
+        safe_addstr(stdscr, 2, 2, "↑↓ mover | Enter elegir/editar", curses.A_DIM)
 
-        y0 = 4
+        y0 = 3
         for i, (label, key) in enumerate(fields):
             attr = curses.A_REVERSE if i == idx else 0
             safe_addstr(stdscr, y0 + i, 2, f"{label:16}:", (attr | curses.A_BOLD) if i == idx else curses.A_BOLD)
@@ -615,11 +615,15 @@ def main_screen(stdscr) -> None:
             est_line = f"Tamaño estimado: {state.estimated_mb:.2f} MB"
         safe_addstr(stdscr, y0 + len(fields) + 1, 2, est_line, curses.A_BOLD)
 
-        safe_addstr(stdscr, y0 + len(fields) + 3, 2, f"Factor de corrección: {state.correction_factor:.4f} (n={state.correction_n})")
-        safe_addstr(stdscr, y0 + len(fields) + 4, 2, f"Bitrates manuales guardados en: {CUSTOM_BITRATES_FILE}", curses.A_DIM)
+        safe_addstr(stdscr, y0 + len(fields) + 2, 2, f"Factor de corrección: {state.correction_factor:.4f} (n={state.correction_n})")
+        safe_addstr(stdscr, y0 + len(fields) + 3, 2, f"Bitrates manuales guardados en: {CUSTOM_BITRATES_FILE}", curses.A_DIM)
+        safe_addstr(stdscr, y0 + len(fields) + 4, 2, "• c: recalcular tamaño estimado", curses.A_DIM)
+        safe_addstr(stdscr, y0 + len(fields) + 5, 2, "• r: comprimir / iniciar proceso", curses.A_DIM)
+        safe_addstr(stdscr, y0 + len(fields) + 6, 2, "• s: detener mientras está comprimiendo", curses.A_DIM)
+        safe_addstr(stdscr, y0 + len(fields) + 7, 2, "• q: salir", curses.A_DIM)
 
         if state.last_error:
-            safe_addstr(stdscr, y0 + len(fields) + 6, 2, f"Error: {state.last_error}", curses.A_BOLD)
+            safe_addstr(stdscr, y0 + len(fields) + 9, 2, f"Error: {state.last_error}", curses.A_BOLD)
 
         draw_footer(stdscr, "Tip Termux: termux-setup-storage para /storage/emulated/0/ ...")
         stdscr.refresh()
