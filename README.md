@@ -1,8 +1,9 @@
-# FFmpeg Video Compressor TUI (Termux) – v3
+# FFmpeg Video Compressor TUI (Termux) - v3
 
 Compresor de videos para **Android usando Termux**, hecho en **Python + FFmpeg + interfaz de texto (curses)**.
 
 Este programa permite reducir el tamaño de un video ajustando calidad, resolución y audio, ideal para compartir por WhatsApp, Telegram u otras apps.
+Al iniciar permite elegir idioma: **English** por defecto o **Español**.
 
 # Caso de uso
 Yo tengo un vídeo en mi celular de 900 MB que lo quería subir a WhatsApp, pero este me mostró un mensaje que decía que WhatsApp lo iba a recortar hasta dejarlo en 180MB (tenía de duración 10 minutos y si hacía eso lo iba a dejar en menos tiempo), y con este programa lo dejé a menos de 180 MB observando el tamaño aproximado al que iba quedando cuando le iba ajustando los parámetros, y lo comprimí y lo pude enviar completo y WhatsApp no me preguntó nada (o sea no fue necesario recortar el vídeo a menos de 10 minutos, sino que, reduciendo su tamaño a menos de 180 MB pude enviarlo completo).
@@ -13,9 +14,12 @@ Yo tengo un vídeo en mi celular de 900 MB que lo quería subir a WhatsApp, pero
 
 Es una aplicación que funciona **dentro de la terminal** (no tiene ventanas gráficas) y permite:
 
-✅ Cambiar resolución  del vídeo
+✅ Elegir idioma al iniciar: inglés o español  
+✅ Buscar videos con un selector de archivos dentro de Termux  
+✅ Cambiar resolución del vídeo  
 ✅ Ajustar calidad de video y audio (bitrate)  
 ✅ Ver el tamaño estimado aproximado final  
+✅ Abrir una ayuda integrada de Termux  
 ✅ Comprimir el video  
 
 ---
@@ -53,9 +57,31 @@ Ese último comando permite acceder a la memoria del teléfono.
 python ffmpegcompressor.py
 ```
 
+Al abrir, primero aparece el selector de idioma. **English** aparece seleccionado por defecto; usa las flechas para elegir **Español** si lo prefieres y presiona **Enter**.
+
 ## 📸 Captura de pantalla
 
-![Interfaz del compresor en Termux](images/20260127_000644_en_Termux.jpg)
+![Interfaz del compresor en Termux](images/20260621_141116_Termux.jpg)
+
+## Ayuda integrada
+
+En el menú principal, baja con las flechas hasta:
+
+```text
+Ayuda Termux: termux-setup-storage | Enter ver
+```
+
+Presiona **Enter** para abrir una ayuda dentro de la terminal. Allí se explica:
+
+* Para qué sirve `termux-setup-storage`
+* Rutas útiles como `/storage/emulated/0/`, `Download` y `/sdcard/`
+* Dependencias necesarias
+* Teclas principales del compresor
+* Archivos locales de configuración
+
+Para volver al menú principal, presiona cualquier tecla.
+
+![Ayuda Termux](images/20260621_171214_Help_Termux.jpg)
 
 ---
 
@@ -65,34 +91,40 @@ python ffmpegcompressor.py
 | --------- | ---------------------------------------- |
 | ↑ ↓       | Mover entre opciones                     |
 | ← →       | Cambiar valor de la opción               |
-| **Enter** | Editar archivo o escribir bitrate manual |
-| **c**     | Calcular tamaño estimado                 |
+| **Enter** | Elegir/editar la opción marcada          |
+| **c**     | Recalcular tamaño estimado               |
 | **f**     | Buscar video con selector de archivos    |
-| **r**     | Comprimir video                          |
-| **s**     | Detener compresión                       |
+| **r**     | Comprimir video / iniciar proceso        |
+| **s**     | Detener mientras está comprimiendo       |
 | **q**     | Salir                                    |
 
 ---
 
-## Como cargar el video
+## Cómo cargar el video
 
-En tu administrador de archivos, que puede ser el del teléfono u otro que hayas descargado, ejemplo a mí me gusta usar  Mixplorer, coloca un vídeo en está carpeta: 
+Al iniciar, después de elegir idioma, aparece un selector de archivos.
 
- whatsapp-termux-video-compressor
-  
- y allí veo cuál es el nombre del archivo con su extensión y lo copio tal cual está, ejemplo: 
+Puedes navegar con las flechas:
 
-20260201 Video.mp4
+* **↑ ↓**: moverse por carpetas y videos
+* **Enter**: abrir carpeta o elegir video
+* **q** o **ESC**: cancelar
 
-Y vuelvo a Termux y doy **Enter** en: 
+Una forma simple de usarlo es colocar el video en la carpeta del repositorio:
 
-Archivo de entrada: (vacío)
+```text
+whatsapp-termux-video-compressor
+```
 
-Y aparecerá el foco del cortador encima de: 
+Luego abre el programa y selecciona el video desde el selector.
 
-Tamaño estimado: N/A
+También puedes acceder a carpetas del teléfono si ya ejecutaste:
 
-allí escribir ese nombre y presiona "c" para calcular el tamaño estimado, y "r" para iniciar la compresión, y "s" para detener, y si deseas cambiar algún valor sigue leyendo:
+```bash
+termux-setup-storage
+```
+
+Después de elegir el video, presiona **c** para recalcular el tamaño estimado si cambias parámetros, **r** para iniciar la compresión y **s** para detenerla mientras está comprimiendo.
 
 ---
 
@@ -102,8 +134,8 @@ allí escribir ese nombre y presiona "c" para calcular el tamaño estimado, y "r
 
 Cambia la resolución del video:
 
-* Horizontal → formato normal
-* Vertical → para videos tipo TikTok / Reels
+* Horizontal / Landscape → formato normal
+* Vertical / Portrait → para videos tipo TikTok / Reels
 
 ### Bitrate de video
 
