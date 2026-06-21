@@ -180,6 +180,55 @@ correction_factor.json
 
 Cada conversión mejora la precisión del cálculo.
 
+Formato:
+
+```json
+{
+  "factor": 1.08,
+  "n": 0
+}
+```
+
+* `factor`: multiplicador usado para ajustar la estimación.
+* `n`: cantidad de conversiones usadas para calcular ese factor.
+
+Este archivo no se sube a GitHub porque es generado por el programa y depende de las conversiones hechas en cada teléfono.
+
+---
+
+## Archivos locales ignorados
+
+Estos archivos se guardan localmente, pero están excluidos en `.gitignore`:
+
+```text
+correction_factor.json
+custom_bitrates.json
+```
+
+La razón es que ambos contienen datos generados o preferencias personales del usuario:
+
+* `correction_factor.json`: cambia después de comprimir videos y ajusta la estimación según resultados reales.
+* `custom_bitrates.json`: guarda bitrates manuales agregados por el usuario.
+
+Para documentar el formato sin subir datos locales, el repositorio incluye:
+
+```text
+correction_factor.example.json
+custom_bitrates.example.json
+```
+
+Formato de `custom_bitrates.json`:
+
+```json
+{
+  "video": [275],
+  "audio": [72]
+}
+```
+
+* `video`: lista de bitrates de video personalizados en kbit/s.
+* `audio`: lista de bitrates de audio personalizados en kbit/s.
+
 ---
 
 ## Archivos de salida
