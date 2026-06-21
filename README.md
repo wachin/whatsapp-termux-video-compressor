@@ -67,6 +67,7 @@ python ffmpegcompressor.py
 | ← →       | Cambiar valor de la opción               |
 | **Enter** | Editar archivo o escribir bitrate manual |
 | **c**     | Calcular tamaño estimado                 |
+| **f**     | Buscar video con selector de archivos    |
 | **r**     | Comprimir video                          |
 | **s**     | Detener compresión                       |
 | **q**     | Salir                                    |

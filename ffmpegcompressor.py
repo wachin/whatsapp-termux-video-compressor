@@ -48,6 +48,10 @@ AUDIO_BITRATES_BASE = [320, 192, 160, 144, 128, 112, 96, 80, 64, 56, 48, 40]
 FRAMERATES = [15, 24, 30]
 AUDIO_CHANNELS = [1, 2]
 SAMPLE_RATES = ["96000 Hz", "48000 Hz", "44100 Hz", "32000 Hz", "24000 Hz", "22050 Hz", "16000 Hz"]
+VIDEO_EXTENSIONS = {
+    ".mp4", ".mkv", ".avi", ".mov", ".flv", ".wmv", ".webm", ".m4v",
+    ".3gp", ".mpeg", ".mpg", ".ts", ".mts", ".m2ts",
+}
 
 
 def load_correction_factor() -> Tuple[float, int]:
@@ -111,8 +115,14 @@ def insert_value_sorted_desc(values: List[int], v: int) -> int:
 
 
 def ffprobe_duration_seconds(input_file: str) -> float:
-    cmd = f'ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 "{input_file}"'
-    out = subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT).decode().strip()
+    cmd = [
+        "ffprobe",
+        "-v", "error",
+        "-show_entries", "format=duration",
+        "-of", "default=noprint_wrappers=1:nokey=1",
+        input_file,
+    ]
+    out = subprocess.check_output(cmd, stderr=subprocess.STDOUT).decode().strip()
     return float(out)
 
 
@@ -146,18 +156,31 @@ def unique_output_path(input_file: str) -> str:
         i += 1
 
 
-def build_ffmpeg_command(input_file: str, scale_token: str, vbr: int, fr: int, ac: int, abr: int, sr: int) -> Tuple[str, str]:
+def build_ffmpeg_command(input_file: str, scale_token: str, vbr: int, fr: int, ac: int, abr: int, sr: int) -> Tuple[List[str], str]:
     output_file = unique_output_path(input_file)
-    cmd = f'ffmpeg -i "{input_file}" -vf {scale_token} -b:v {vbr}k -r {fr} -ac {ac} -b:a {abr}k -ar {sr} "{output_file}"'
+    cmd = [
+        "ffmpeg",
+        "-i", input_file,
+        "-vf", scale_token,
+        "-b:v", f"{vbr}k",
+        "-r", str(fr),
+        "-ac", str(ac),
+        "-b:a", f"{abr}k",
+        "-ar", str(sr),
+        output_file,
+    ]
     return cmd, output_file
 
 
 def update_correction_with_result(estimated_mb: Optional[float], current_factor: float, current_n: int, output_file: str) -> Tuple[float, int]:
-    if estimated_mb is None or estimated_mb <= 0 or not os.path.isfile(output_file):
+    if estimated_mb is None or estimated_mb <= 0 or current_factor <= 0 or not os.path.isfile(output_file):
         return current_factor, current_n
     real_size = get_file_size_mb(output_file)
-    new_factor = real_size / estimated_mb
-    updated_factor = (current_factor * current_n + new_factor) / (current_n + 1)
+    uncorrected_estimate = estimated_mb / current_factor
+    if uncorrected_estimate <= 0:
+        return current_factor, current_n
+    observed_factor = real_size / uncorrected_estimate
+    updated_factor = (current_factor * current_n + observed_factor) / (current_n + 1)
     return float(updated_factor), int(current_n + 1)
 
 
@@ -236,6 +259,89 @@ def edit_text_popup(stdscr, title: str, initial: str) -> Optional[str]:
     return s
 
 
+def list_video_browser_entries(directory: str) -> Tuple[List[Tuple[str, str]], Optional[str]]:
+    entries: List[Tuple[str, str]] = []
+    error = None
+    try:
+        with os.scandir(directory) as scan:
+            for entry in scan:
+                try:
+                    if entry.is_dir():
+                        entries.append((entry.name + "/", entry.path))
+                    elif entry.is_file() and os.path.splitext(entry.name)[1].lower() in VIDEO_EXTENSIONS:
+                        entries.append((entry.name, entry.path))
+                except OSError:
+                    continue
+    except OSError as e:
+        error = str(e)
+
+    entries.sort(key=lambda item: (not item[0].endswith("/"), item[0].lower()))
+    parent = os.path.dirname(os.path.abspath(directory))
+    if parent and parent != os.path.abspath(directory):
+        entries.insert(0, ("../", parent))
+    return entries, error
+
+
+def pick_video_file(stdscr, start_path: str) -> Optional[str]:
+    current_dir = os.path.abspath(os.path.expanduser(start_path or os.getcwd()))
+    if os.path.isfile(current_dir):
+        current_dir = os.path.dirname(current_dir)
+    elif not os.path.isdir(current_dir):
+        current_dir = os.getcwd()
+
+    idx = 0
+    top = 0
+    last_error = None
+
+    while True:
+        entries, error = list_video_browser_entries(current_dir)
+        last_error = error
+        if idx >= len(entries):
+            idx = max(0, len(entries) - 1)
+
+        stdscr.erase()
+        draw_header(stdscr, "Seleccionar video")
+        h, w = stdscr.getmaxyx()
+        safe_addstr(stdscr, 2, 2, f"Carpeta: {current_dir}", curses.A_BOLD)
+        if last_error:
+            safe_addstr(stdscr, 3, 2, f"Error: {last_error}", curses.A_BOLD)
+
+        list_y = 4
+        visible = max(1, h - 7)
+        if idx < top:
+            top = idx
+        elif idx >= top + visible:
+            top = idx - visible + 1
+
+        if not entries:
+            safe_addstr(stdscr, list_y, 2, "(sin carpetas ni videos soportados)")
+        else:
+            for row, (label, path) in enumerate(entries[top:top + visible]):
+                attr = curses.A_REVERSE if top + row == idx else 0
+                prefix = "[D] " if os.path.isdir(path) else "[V] "
+                safe_addstr(stdscr, list_y + row, 2, prefix + label, attr)
+
+        draw_footer(stdscr, "↑↓ mover | Enter abrir/elegir | q/ESC cancelar")
+        stdscr.refresh()
+
+        ch = stdscr.getch()
+        if ch in (ord("q"), ord("Q"), 27):
+            return None
+        if ch == curses.KEY_UP and entries:
+            idx = (idx - 1) % len(entries)
+        elif ch == curses.KEY_DOWN and entries:
+            idx = (idx + 1) % len(entries)
+        elif ch in (10, 13, curses.KEY_ENTER) and entries:
+            _label, selected = entries[idx]
+            if os.path.isdir(selected):
+                current_dir = selected
+                idx = 0
+                top = 0
+                last_error = None
+            else:
+                return selected
+
+
 def edit_int_popup(stdscr, title: str, initial: int, min_v: int = 10, max_v: int = 50000) -> Optional[int]:
     h, w = stdscr.getmaxyx()
     ph = 9
@@ -289,6 +395,9 @@ def calc_estimate(state: AppState, video_bitrates: List[int], audio_bitrates: Li
         v_kbps = int(video_bitrates[state.vbr_idx])
         a_kbps = int(audio_bitrates[state.abr_idx])
         state.estimated_mb = estimate_size_mb(dur, v_kbps, a_kbps, state.correction_factor)
+    except FileNotFoundError:
+        state.estimated_mb = None
+        state.last_error = "No se encontró ffprobe. En Termux: pkg install ffmpeg"
     except subprocess.CalledProcessError:
         state.estimated_mb = None
         state.last_error = "ffprobe falló. ¿Existe ffprobe/ffmpeg en Termux?"
@@ -325,17 +434,16 @@ def run_ffmpeg_screen(stdscr, state: AppState, video_bitrates: List[int], audio_
     out_win.border()
 
     safe_addstr(stdscr, 2, 2, "Comando:", curses.A_BOLD)
-    safe_addstr(stdscr, 2, 11, cmd[: max(0, w - 12)])
+    safe_addstr(stdscr, 2, 11, " ".join(shlex.quote(arg) for arg in cmd)[: max(0, w - 12)])
     safe_addstr(stdscr, h - 3, 2, "Teclas: ", curses.A_BOLD)
     safe_addstr(stdscr, h - 3, 10, "s=Stop   q=Volver (si está corriendo, detiene primero)")
 
     stdscr.refresh()
     out_win.refresh()
 
-    args = shlex.split(cmd)
     try:
         proc = subprocess.Popen(
-            args,
+            cmd,
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,
             text=True,
@@ -471,7 +579,7 @@ def main_screen(stdscr) -> None:
         draw_header(stdscr, "Compresor de Video FFmpeg — Termux (curses)")
 
         h, w = stdscr.getmaxyx()
-        safe_addstr(stdscr, 2, 2, "↑↓ mover | ←→ cambiar | Enter editar (archivo/bitrates) | c calcular | r comprimir | q salir", curses.A_DIM)
+        safe_addstr(stdscr, 2, 2, "↑↓ mover | ←→ cambiar | Enter editar | f buscar video | c calcular | r comprimir | q salir", curses.A_DIM)
 
         y0 = 4
         for i, (label, key) in enumerate(fields):
@@ -521,6 +629,11 @@ def main_screen(stdscr) -> None:
             idx = (idx + 1) % len(fields)
         elif ch in (ord('c'), ord('C')):
             calc_estimate(state, video_bitrates, audio_bitrates)
+        elif ch in (ord('f'), ord('F')):
+            selected = pick_video_file(stdscr, state.input_file or os.getcwd())
+            if selected is not None:
+                state.input_file = selected
+                calc_estimate(state, video_bitrates, audio_bitrates)
         elif ch in (ord('r'), ord('R')):
             calc_estimate(state, video_bitrates, audio_bitrates)
             run_ffmpeg_screen(stdscr, state, video_bitrates, audio_bitrates)

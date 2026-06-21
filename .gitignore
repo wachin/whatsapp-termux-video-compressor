@@ -2,6 +2,7 @@
 # Archivos de video (NO subir)
 # ==============================
 *.mp4
+*.mp4.*
 *.mkv
 *.avi
 *.mov
