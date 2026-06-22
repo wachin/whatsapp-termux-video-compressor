@@ -32,6 +32,10 @@ Este programa está pensado para **Android + Termux**.
 
 Desde F-Droid
 
+o:
+
+Algunos celulares de la marca Xiaomi tienen una versión actualizada y full de Termux.
+
 ### 2️⃣ Instalar dependencias dentro de Termux
 
 Abre Termux y escribe:
@@ -39,7 +43,12 @@ Abre Termux y escribe:
 ```bash
 pkg update
 pkg upgrade
-pkg install python ffmpeg
+pkg install git python ffmpeg
+```
+
+luego poner:
+
+```bash
 termux-setup-storage
 ```
 
@@ -49,7 +58,7 @@ Ese último comando permite acceder a la memoria del teléfono.
 
 ## Cómo ejecutar el programa
 
-1. Clona o descarga este repositorio
+1. Clona (ya tenemos git instalado) o descarga este repositorio
 2. Entra a esa carpeta desde Termux.
 3. Ejecuta:
 
@@ -63,7 +72,7 @@ Al abrir, primero aparece el selector de idioma. **English** aparece seleccionad
 
 ![Interfaz del compresor en Termux](images/20260621_141116_Termux.jpg)
 
-## Ayuda integrada
+## Ayuda integrada (Opcional)
 
 En el menú principal, baja con las flechas hasta:
 
@@ -90,7 +99,7 @@ Para volver al menú principal, presiona cualquier tecla.
 | Tecla     | Función                                  |
 | --------- | ---------------------------------------- |
 | ↑ ↓       | Mover entre opciones                     |
-| ← →       | Cambiar valor de la opción               |
+| ← →       | Bajar/subir el valor marcado             |
 | **Enter** | Elegir/editar la opción marcada          |
 | **c**     | Recalcular tamaño estimado               |
 | **f**     | Buscar video con selector de archivos    |
@@ -130,12 +139,16 @@ Después de elegir el video, presiona **c** para recalcular el tamaño estimado 
 
 ## Parámetros que puedes cambiar
 
+En los valores numéricos, **←** disminuye y **→** aumenta. Esto aplica a bitrate de video, framerate, canales de audio, bitrate de audio y frecuencia de audio.
+
 ### Escala
 
 Cambia la resolución del video:
 
 * Horizontal / Landscape → formato normal
 * Vertical / Portrait → para videos tipo TikTok / Reels
+
+En **Escala**, las flechas izquierda/derecha alternan entre las opciones disponibles.
 
 Cuando la opción **Escala / Scale** está marcada, puedes cambiar entre `scale=512:288` y `scale=288:512` con **← →** o presionando **Enter**.
 

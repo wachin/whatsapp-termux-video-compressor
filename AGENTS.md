@@ -25,7 +25,6 @@ Required Termux dependencies:
 
 ```bash
 pkg install python ffmpeg
-termux-setup-storage
 ```
 
 Use `python -m py_compile ffmpegcompressor.py video_rotate.py` for a quick syntax check before committing.
