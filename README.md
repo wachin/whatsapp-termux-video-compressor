@@ -137,6 +137,8 @@ Cambia la resolución del video:
 * Horizontal / Landscape → formato normal
 * Vertical / Portrait → para videos tipo TikTok / Reels
 
+Cuando la opción **Escala / Scale** está marcada, puedes cambiar entre `scale=512:288` y `scale=288:512` con **← →** o presionando **Enter**.
+
 ### Bitrate de video
 
 Controla la calidad del video.

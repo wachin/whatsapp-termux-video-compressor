@@ -125,6 +125,7 @@ TEXT = {
         "correction_factor": "Correction factor: {factor:.4f} (n={n})",
         "custom_bitrates": "Manual bitrates saved in: {file}",
         "help_c": "• c: recalculate estimated size",
+        "help_arrows": "• ←/→: change scale or selected value",
         "help_r": "• r: compress / start process",
         "help_s": "• s: stop while compressing",
         "help_q": "• q: exit",
@@ -205,6 +206,7 @@ TEXT = {
         "correction_factor": "Factor de corrección: {factor:.4f} (n={n})",
         "custom_bitrates": "Bitrates manuales guardados en: {file}",
         "help_c": "• c: recalcular tamaño estimado",
+        "help_arrows": "• ←/→: cambiar escala o valor marcado",
         "help_r": "• r: comprimir / iniciar proceso",
         "help_s": "• s: detener mientras está comprimiendo",
         "help_q": "• q: salir",
@@ -869,12 +871,13 @@ def main_screen(stdscr) -> None:
         safe_addstr(stdscr, y0 + len(fields) + 2, 2, t(lang, "correction_factor", factor=state.correction_factor, n=state.correction_n))
         safe_addstr(stdscr, y0 + len(fields) + 3, 2, t(lang, "custom_bitrates", file=CUSTOM_BITRATES_FILE), curses.A_DIM)
         safe_addstr(stdscr, y0 + len(fields) + 4, 2, t(lang, "help_c"), curses.A_DIM)
-        safe_addstr(stdscr, y0 + len(fields) + 5, 2, t(lang, "help_r"), curses.A_DIM)
-        safe_addstr(stdscr, y0 + len(fields) + 6, 2, t(lang, "help_s"), curses.A_DIM)
-        safe_addstr(stdscr, y0 + len(fields) + 7, 2, t(lang, "help_q"), curses.A_DIM)
+        safe_addstr(stdscr, y0 + len(fields) + 5, 2, t(lang, "help_arrows"), curses.A_DIM)
+        safe_addstr(stdscr, y0 + len(fields) + 6, 2, t(lang, "help_r"), curses.A_DIM)
+        safe_addstr(stdscr, y0 + len(fields) + 7, 2, t(lang, "help_s"), curses.A_DIM)
+        safe_addstr(stdscr, y0 + len(fields) + 8, 2, t(lang, "help_q"), curses.A_DIM)
 
         if state.last_error:
-            safe_addstr(stdscr, y0 + len(fields) + 9, 2, f"{t(lang, 'error')}: {state.last_error}", curses.A_BOLD)
+            safe_addstr(stdscr, y0 + len(fields) + 10, 2, f"{t(lang, 'error')}: {state.last_error}", curses.A_BOLD)
 
         footer_attr = curses.A_REVERSE if idx == help_idx else 0
         draw_footer(stdscr, t(lang, "termux_footer"), footer_attr)
@@ -928,6 +931,10 @@ def main_screen(stdscr) -> None:
                 if selected is not None:
                     state.input_file = selected
                     calc_estimate(state, video_bitrates, audio_bitrates, lang)
+
+            elif key == "scale":
+                state.scale_idx = (state.scale_idx + 1) % len(SCALE_OPTIONS)
+                calc_estimate(state, video_bitrates, audio_bitrates, lang)
 
             elif key == "vbr":
                 val = edit_int_popup(stdscr, t(lang, "video_bitrate_title"), int(video_bitrates[state.vbr_idx]), lang)
