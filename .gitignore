@@ -47,5 +47,6 @@ __pycache__/
 # ==============================
 # Termux / sistema
 # ==============================
+.obsidian/
 .DS_Store
 Thumbs.db
