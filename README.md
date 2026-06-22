@@ -1,6 +1,6 @@
 # FFmpeg Video Compressor TUI (Termux) - v3
 
-Video compressor for **Android using Termux**, built with **Python + FFmpeg + a text interface (curses)**.
+Video compressor for **Android using Termux**, built with **Python + FFmpeg + a text interface (curses)**. but also working under Linux Terminal.
 
 This program reduces video size by adjusting quality, resolution, and audio settings, which is useful for sharing videos through WhatsApp, Telegram, and other apps. On startup, it lets you choose the interface language: **English** by default or **Español**.
 
@@ -28,13 +28,15 @@ It is an application that runs **inside the terminal**. It does not use a graphi
 
 ## Requirements
 
-This program is designed for **Android + Termux**.
+This program is designed for **Android + Termux**, but also working on Linux.
 
 ### 1. Install Termux
 
 Install Termux from F-Droid.
 
-Some Xiaomi phones may also include an updated full Termux version.
+**Note**: Some Xiaomi phones may also include an updated full Termux version.
+
+Doesn't use the Termux version that come in Play Store because it's not a full version.
 
 ### 2. Install Dependencies Inside Termux
 
@@ -55,18 +57,6 @@ termux-setup-storage
 That last command allows Termux to access the phone storage.
 
 ---
-
-## How to Run the Program
-
-1. Clone or download this repository.
-2. Enter the repository folder from Termux.
-3. Run:
-
-```bash
-python ffmpegcompressor.py
-```
-
-When it opens, the language selector appears first. **English** is selected by default; use the arrows to choose **Español** if you prefer, then press **Enter**.
 
 ## Accessing Internal Storage
 
@@ -134,6 +124,18 @@ If you used `cd /sdcard`, it may look like:
 
 > **Note:** It is important to know where you are. If you accidentally cloned a repository inside the Termux home folder or inside `storage`, you can move it with `mv`. If you are in `/data/data/com.termux/files/home` and cloned a repo named `myrepo`, first move it to `storage` with `mv myrepo storage`, then move it to shared internal storage with `mv myrepo shared`. If you cloned it directly inside `storage`, use `mv myrepo shared`. If you are in `shared` and want to return to the Termux home folder, run `cd`.
 
+## How to Run the Program
+
+1. Clone or download this repository within the Internal Storage to which it is taken thanks to  /sdcard 
+2. Enter the repository folder from Termux with `cd` following the name of the repository 
+3. Run:
+
+```bash
+python ffmpegcompressor.py
+```
+
+When it opens, the language selector appears first. **English** is selected by default; use the arrows to choose **Español** if you prefer, then press **Enter**.
+
 ## Screenshot
 
 ![Compressor interface in Termux](images/20260621_141116_Termux.jpg)
@@ -192,12 +194,6 @@ whatsapp-termux-video-compressor
 
 Then open the program and choose the video from the file picker.
 
-You can also access phone folders after running:
-
-```bash
-termux-setup-storage
-```
-
 After choosing the video, press **c** to recalculate the estimated size if you change parameters, **r** to start compression, and **s** to stop while it is compressing.
 
 ---
@@ -245,7 +241,7 @@ The program starts with these values:
 | Audio bitrate | `64k` | Gives more audio quality than the older 18k-30k tests while still staying light. |
 | Sample rate | `44100 Hz` | Common and compatible audio frequency. |
 
-These values come from older manual FFmpeg/FFmulticonverter tests made to send videos through WhatsApp when the limit was much smaller, around **16 MB**. Those tests used commands like:
+These values come from older manual FFmpeg/FFmulticonverter tests [made by me](https://gist.github.com/wachin/643b01ece5724ceba23d3408db53db28) to send videos through WhatsApp when the limit was much smaller, around **16 MB**. Those tests used commands like:
 
 ```bash
 -vf "scale=512:288" -b:v 200k -r 15 -ac 1 -b:a 30k -ar 44100
@@ -406,5 +402,11 @@ video_compressed_2.mp4
 Educational project for video compression on Android using free tools.
 
 - Washington Indacochea Delgado
+
+Under ![GPL3 License](LICENSE)
+
+---
+
+God Bless You
 
 ---
