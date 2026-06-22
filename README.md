@@ -68,6 +68,70 @@ python ffmpegcompressor.py
 
 Al abrir, primero aparece el selector de idioma. **English** aparece seleccionado por defecto; usa las flechas para elegir **Español** si lo prefieres y presiona **Enter**.
 
+## Acceder al Almacenamiento Interno
+
+Para que Termux tenga acceso a su almacenamiento interno, escriba:
+
+```
+termux-setup-storage
+```
+
+y presione Enter y acepte.
+
+Para clonar un repositorio en la memoria interna primero hay que llegar allí. En Termux escriba:
+
+```
+cd storage
+```
+
+Luego escriba:
+
+```
+ls
+```
+
+para ver los repositorios disponibles.
+
+Luego elija la memoria compartida:
+
+```
+cd shared
+```
+
+Comando especial: También se pueden abreviar esos dos pasos solo con:
+
+```bash
+cd /sdcard
+```
+
+Con cualquiera de los dos métodos llegará a la memoria interna compartida.
+
+Para saber en qué ruta está ubicado, escriba en Termux:
+
+```bash
+pwd
+```
+
+y presione Enter.
+
+**Nota**: Si es la primera vez que abre Termux estará en la carpeta de configuraciones de Termux (es una especie de emulación del HOME de Linux para que Termux tenga allí sus archivos como si estuviera en Linux):
+
+```
+/data/data/com.termux/files/home
+```
+
+y si ya está en la memoria interna y para llegar allí usó cd shared aparece así:
+
+```
+~/storage/shared $
+```
+y si uso: cd /sdcard así:
+```
+/sdcard $
+```
+
+>**Nota**: Siempre es importante saber dónde está ubicado porque puede ser que sin querer clonó un repositorio dentro del espacio de configuraciones de Termux o en storage, y en caso de pasar algún día eso, puede usar el comando mover "mv" para mover la carpeta que haya clonado desde el espacio de las configuraciones de Termux a storage y luego usar otra vez "mv" para mover la carpeta a "shared". Para esto es necesario saber que si estoy en "/data/data/com.termux/files/home" (que es por defecto donde uno está ubicado cuando recién abre Termux) fuera de este está "storage", y si estoy en "storage" fuera de este está "shared", entonces si cloné un repo llamado "mirepo" estando en ".../home" primero debo pasarlo a "storage" poniendo allí: `mv su-repo storage` y luego para pasarlo al Almacenamiento Interno poner: `mv su-repo shared` y listo solucionado; y si solo por error lo clonó en storage solo ponga: `mv su-repo shared`. Por cierto, si usted está en "shared" y desea ir a ".../home" ponga `cd`.
+
 ## 📸 Captura de pantalla
 
 ![Interfaz del compresor en Termux](images/20260621_141116_Termux.jpg)
