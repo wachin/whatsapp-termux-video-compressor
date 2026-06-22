@@ -231,6 +231,40 @@ Puedes cambiar:
 
 ---
 
+## Por qué esos valores por defecto
+
+El programa inicia con estos valores:
+
+| Parámetro | Valor por defecto | Motivo práctico |
+| --------- | ----------------- | --------------- |
+| Escala | `scale=512:288` | Baja la resolución para reducir mucho el peso del video. |
+| Bitrate video | `200k` | Mantiene una calidad aceptable para pantalla de teléfono sin hacer el archivo muy grande. |
+| Framerate | `15` | Reduce la cantidad de cuadros por segundo y baja el tamaño final. |
+| Canales audio | `1` | Usa audio mono; para voz o videos casuales suele ser suficiente y pesa menos que estéreo. |
+| Bitrate audio | `64k` | Da más margen de calidad que las pruebas antiguas de 18k-30k, pero sigue siendo liviano. |
+| Sample rate | `44100 Hz` | Es una frecuencia común y compatible para audio. |
+
+Estos valores vienen de pruebas manuales antiguas hechas con FFmpeg/FFmulticonverter para poder enviar videos por WhatsApp cuando el límite era mucho más pequeño, alrededor de **16 MB**. En esas pruebas se usaban comandos como:
+
+```bash
+-vf "scale=512:288" -b:v 200k -r 15 -ac 1 -b:a 30k -ar 44100
+```
+
+La idea era siempre la misma:
+
+* Reducir la resolución con `scale=512:288`.
+* Bajar el bitrate de video para controlar el tamaño.
+* Usar `15 fps` para reducir cuadros por segundo.
+* Convertir el audio a mono con `-ac 1`.
+* Usar un bitrate de audio bajo.
+* Mantener `44100 Hz` por compatibilidad.
+
+Hoy WhatsApp permite enviar videos de mayor tamaño, por eso este programa usa valores un poco más cómodos, especialmente en audio (`64k` en vez de 18k-30k). Aun así, los valores por defecto siguen siendo un buen punto de partida porque comprimen bastante sin obligarte a calcular todo desde cero.
+
+Si el video queda muy grande, baja primero el **bitrate de video**. Si todavía necesitas reducir más, prueba bajar el **bitrate de audio** o usar un valor de video más bajo. Después presiona **c** para recalcular el tamaño estimado.
+
+---
+
 ## Bitrate manual (¡función avanzada!)
 
 Puedes escribir cualquier bitrate:

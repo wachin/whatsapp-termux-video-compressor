@@ -58,6 +58,7 @@ TEXT = {
         "lang_footer": "↑↓ move | Enter select | q/ESC quit",
         "help_title": "Termux Help",
         "help_back": "Press any key to return.",
+        "help_scroll_footer": "↑↓ scroll | q/ESC/Enter return",
         "help_lines": [
             "termux-setup-storage",
             "  Allows Termux to read and write shared storage.",
@@ -78,6 +79,11 @@ TEXT = {
             "  r: compress / start process.",
             "  s: stop while ffmpeg is compressing.",
             "  q: exit the compressor.",
+            "",
+            "Why these defaults",
+            "  The defaults come from old WhatsApp compression tests made when videos had to stay under about 16 MB.",
+            "  512x288, 15 fps, mono audio and low bitrates reduce size aggressively while keeping the video usable.",
+            "  Today WhatsApp allows larger files, so these values are only a practical starting point.",
             "",
             "Local files",
             f"  {CUSTOM_BITRATES_FILE}: saved manual bitrates.",
@@ -139,6 +145,7 @@ TEXT = {
         "lang_footer": "↑↓ mover | Enter elegir | q/ESC salir",
         "help_title": "Ayuda Termux",
         "help_back": "Presiona cualquier tecla para volver.",
+        "help_scroll_footer": "↑↓ desplazar | q/ESC/Enter volver",
         "help_lines": [
             "termux-setup-storage",
             "  Da permiso a Termux para leer y escribir en el almacenamiento compartido.",
@@ -159,6 +166,11 @@ TEXT = {
             "  r: comprimir / iniciar proceso.",
             "  s: detener mientras ffmpeg esta comprimiendo.",
             "  q: salir del compresor.",
+            "",
+            "Por que estos valores",
+            "  Los valores por defecto vienen de pruebas antiguas para WhatsApp, cuando los videos debian quedar por debajo de unos 16 MB.",
+            "  512x288, 15 fps, audio mono y bitrates bajos reducen bastante el tamaño sin dejar el video inutilizable.",
+            "  Hoy WhatsApp permite archivos mas grandes, asi que estos valores son solo un punto de partida practico.",
             "",
             "Archivos locales",
             f"  {CUSTOM_BITRATES_FILE}: bitrates manuales guardados.",
@@ -438,16 +450,32 @@ def wrap_help_lines(lines: List[str], width: int) -> List[Tuple[str, bool]]:
 
 def show_termux_help(stdscr, lang: str) -> None:
     lines = TEXT.get(lang, TEXT["en"])["help_lines"]
-    stdscr.erase()
-    draw_header(stdscr, t(lang, "help_title"))
-    h, w = stdscr.getmaxyx()
-    visible_lines = wrap_help_lines(lines, max(20, w - 4))[: max(0, h - 5)]
-    for i, (line, is_heading) in enumerate(visible_lines):
-        attr = curses.A_BOLD if line and is_heading else 0
-        safe_addstr(stdscr, 3 + i, 2, line, attr)
-    draw_footer(stdscr, t(lang, "help_back"))
-    stdscr.refresh()
-    stdscr.getch()
+    top = 0
+
+    while True:
+        stdscr.erase()
+        draw_header(stdscr, t(lang, "help_title"))
+        h, w = stdscr.getmaxyx()
+        available = max(0, h - 5)
+        wrapped = wrap_help_lines(lines, max(20, w - 4))
+        max_top = max(0, len(wrapped) - available)
+        top = min(top, max_top)
+
+        for i, (line, is_heading) in enumerate(wrapped[top:top + available]):
+            attr = curses.A_BOLD if line and is_heading else 0
+            safe_addstr(stdscr, 3 + i, 2, line, attr)
+
+        footer = t(lang, "help_scroll_footer") if max_top else t(lang, "help_back")
+        draw_footer(stdscr, footer)
+        stdscr.refresh()
+
+        ch = stdscr.getch()
+        if ch == curses.KEY_UP and top > 0:
+            top -= 1
+        elif ch == curses.KEY_DOWN and top < max_top:
+            top += 1
+        else:
+            return
 
 
 def edit_text_popup(stdscr, title: str, initial: str, lang: str) -> Optional[str]:
