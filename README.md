@@ -1,44 +1,44 @@
 # FFmpeg Video Compressor TUI (Termux) - v3
 
-Compresor de videos para **Android usando Termux**, hecho en **Python + FFmpeg + interfaz de texto (curses)**.
+Video compressor for **Android using Termux**, built with **Python + FFmpeg + a text interface (curses)**.
 
-Este programa permite reducir el tamaño de un video ajustando calidad, resolución y audio, ideal para compartir por WhatsApp, Telegram u otras apps.
-Al iniciar permite elegir idioma: **English** por defecto o **Español**.
+This program reduces video size by adjusting quality, resolution, and audio settings, which is useful for sharing videos through WhatsApp, Telegram, and other apps. On startup, it lets you choose the interface language: **English** by default or **Español**.
 
-# Caso de uso
-Yo tengo un vídeo en mi celular de 900 MB que lo quería subir a WhatsApp, pero este me mostró un mensaje que decía que WhatsApp lo iba a recortar hasta dejarlo en 180MB (tenía de duración 10 minutos y si hacía eso lo iba a dejar en menos tiempo), y con este programa lo dejé a menos de 180 MB observando el tamaño aproximado al que iba quedando cuando le iba ajustando los parámetros, y lo comprimí y lo pude enviar completo y WhatsApp no me preguntó nada (o sea no fue necesario recortar el vídeo a menos de 10 minutos, sino que, reduciendo su tamaño a menos de 180 MB pude enviarlo completo).
+**Spanish documentation:** if you prefer Spanish, read [README_ES.md](README_ES.md).
 
----
+# Use Case
 
-## ¿Qué es este programa?
-
-Es una aplicación que funciona **dentro de la terminal** (no tiene ventanas gráficas) y permite:
-
-✅ Elegir idioma al iniciar: inglés o español  
-✅ Buscar videos con un selector de archivos dentro de Termux  
-✅ Cambiar resolución del vídeo  
-✅ Ajustar calidad de video y audio (bitrate)  
-✅ Ver el tamaño estimado aproximado final  
-✅ Abrir una ayuda integrada de Termux  
-✅ Comprimir el video  
+I had a 900 MB video on my phone that I wanted to upload to WhatsApp, but WhatsApp showed a message saying it would trim the video down to 180 MB. The video was 10 minutes long, and trimming it would have shortened it. With this program, I reduced it to less than 180 MB while watching the estimated final size as I adjusted the parameters. After compressing it, I could send the complete video and WhatsApp did not ask me to trim it.
 
 ---
 
-## ¿Qué necesitas antes?
+## What Is This Program?
 
-Este programa está pensado para **Android + Termux**.
+It is an application that runs **inside the terminal**. It does not use a graphical window. It lets you:
 
-### 1️⃣ Instalar Termux
+- Choose the startup language: English or Spanish
+- Search for videos with a file picker inside Termux
+- Change video resolution
+- Adjust video and audio quality through bitrate settings
+- See the approximate estimated final size
+- Open built-in Termux help
+- Compress the video
 
-Desde F-Droid
+---
 
-o:
+## Requirements
 
-Algunos celulares de la marca Xiaomi tienen una versión actualizada y full de Termux.
+This program is designed for **Android + Termux**.
 
-### 2️⃣ Instalar dependencias dentro de Termux
+### 1. Install Termux
 
-Abre Termux y escribe:
+Install Termux from F-Droid.
+
+Some Xiaomi phones may also include an updated full Termux version.
+
+### 2. Install Dependencies Inside Termux
+
+Open Termux and run:
 
 ```bash
 pkg update
@@ -46,286 +46,287 @@ pkg upgrade
 pkg install git python ffmpeg
 ```
 
-luego poner:
+Then run:
 
 ```bash
 termux-setup-storage
 ```
 
-Ese último comando permite acceder a la memoria del teléfono.
+That last command allows Termux to access the phone storage.
 
 ---
 
-## Cómo ejecutar el programa
+## How to Run the Program
 
-1. Clona (ya tenemos git instalado) o descarga este repositorio
-2. Entra a esa carpeta desde Termux.
-3. Ejecuta:
+1. Clone or download this repository.
+2. Enter the repository folder from Termux.
+3. Run:
 
 ```bash
 python ffmpegcompressor.py
 ```
 
-Al abrir, primero aparece el selector de idioma. **English** aparece seleccionado por defecto; usa las flechas para elegir **Español** si lo prefieres y presiona **Enter**.
+When it opens, the language selector appears first. **English** is selected by default; use the arrows to choose **Español** if you prefer, then press **Enter**.
 
-## Acceder al Almacenamiento Interno
+## Accessing Internal Storage
 
-Para que Termux tenga acceso a su almacenamiento interno, escriba:
+To allow Termux to access internal storage, run:
 
-```
+```bash
 termux-setup-storage
 ```
 
-y presione Enter y acepte.
+Press Enter and accept the Android permission prompt.
 
-Para clonar un repositorio en la memoria interna primero hay que llegar allí. En Termux escriba:
+To clone a repository into internal storage, first navigate there. In Termux, run:
 
-```
+```bash
 cd storage
 ```
 
-Luego escriba:
+Then run:
 
-```
+```bash
 ls
 ```
 
-para ver los repositorios disponibles.
+to see the available folders.
 
-Luego elija la memoria compartida:
+Then enter shared storage:
 
-```
+```bash
 cd shared
 ```
 
-Comando especial: También se pueden abreviar esos dos pasos solo con:
+Shortcut: you can do the same thing with:
 
 ```bash
 cd /sdcard
 ```
 
-Con cualquiera de los dos métodos llegará a la memoria interna compartida.
+Either method takes you to shared internal storage.
 
-Para saber en qué ruta está ubicado, escriba en Termux:
+To check your current location in Termux, run:
 
 ```bash
 pwd
 ```
 
-y presione Enter.
+and press Enter.
 
-**Nota**: Si es la primera vez que abre Termux estará en la carpeta de configuraciones de Termux (es una especie de emulación del HOME de Linux para que Termux tenga allí sus archivos como si estuviera en Linux):
+**Note:** When you open Termux for the first time, you start in the Termux home folder:
 
-```
+```text
 /data/data/com.termux/files/home
 ```
 
-y si ya está en la memoria interna y para llegar allí usó cd shared aparece así:
+If you are already in internal storage through `cd shared`, the prompt may look like:
 
-```
+```text
 ~/storage/shared $
 ```
-y si uso: cd /sdcard así:
-```
+
+If you used `cd /sdcard`, it may look like:
+
+```text
 /sdcard $
 ```
 
->**Nota**: Siempre es importante saber dónde está ubicado porque puede ser que sin querer clonó un repositorio dentro del espacio de configuraciones de Termux o en storage, y en caso de pasar algún día eso, puede usar el comando mover "mv" para mover la carpeta que haya clonado desde el espacio de las configuraciones de Termux a storage y luego usar otra vez "mv" para mover la carpeta a "shared". Para esto es necesario saber que si estoy en "/data/data/com.termux/files/home" (que es por defecto donde uno está ubicado cuando recién abre Termux) fuera de este está "storage", y si estoy en "storage" fuera de este está "shared", entonces si cloné un repo llamado "mirepo" estando en ".../home" primero debo pasarlo a "storage" poniendo allí: `mv su-repo storage` y luego para pasarlo al Almacenamiento Interno poner: `mv su-repo shared` y listo solucionado; y si solo por error lo clonó en storage solo ponga: `mv su-repo shared`. Por cierto, si usted está en "shared" y desea ir a ".../home" ponga `cd`.
+> **Note:** It is important to know where you are. If you accidentally cloned a repository inside the Termux home folder or inside `storage`, you can move it with `mv`. If you are in `/data/data/com.termux/files/home` and cloned a repo named `myrepo`, first move it to `storage` with `mv myrepo storage`, then move it to shared internal storage with `mv myrepo shared`. If you cloned it directly inside `storage`, use `mv myrepo shared`. If you are in `shared` and want to return to the Termux home folder, run `cd`.
 
-## 📸 Captura de pantalla
+## Screenshot
 
-![Interfaz del compresor en Termux](images/20260621_141116_Termux.jpg)
+![Compressor interface in Termux](images/20260621_141116_Termux.jpg)
 
-## Ayuda integrada (Opcional)
+## Built-In Help
 
-En el menú principal, baja con las flechas hasta:
+In the main menu, move down with the arrows until:
 
 ```text
-Ayuda Termux: termux-setup-storage | Enter ver
+Termux Help build in | Enter view
 ```
 
-Presiona **Enter** para abrir una ayuda dentro de la terminal. Allí se explica:
+Press **Enter** to open built-in help inside the terminal. It explains:
 
-* Para qué sirve `termux-setup-storage`
-* Rutas útiles como `/storage/emulated/0/`, `Download` y `/sdcard/`
-* Dependencias necesarias
-* Teclas principales del compresor
-* Archivos locales de configuración
+- Main compressor keys
+- Why the default compression values were chosen
+- Available presets and old WhatsApp compression examples
+- Local configuration files
 
-Para volver al menú principal, presiona cualquier tecla.
+Use **Up/Down** to scroll. To return to the main menu, press **q**, **ESC**, or **Enter**.
 
-![Ayuda Termux](images/20260621_171214_Help_Termux.jpg)
-
----
-
-## Controles del programa
-
-| Tecla     | Función                                  |
-| --------- | ---------------------------------------- |
-| ↑ ↓       | Mover entre opciones                     |
-| ← →       | Bajar/subir el valor marcado             |
-| **Enter** | Elegir/editar la opción marcada          |
-| **c**     | Recalcular tamaño estimado               |
-| **f**     | Buscar video con selector de archivos    |
-| **r**     | Comprimir video / iniciar proceso        |
-| **s**     | Detener mientras está comprimiendo       |
-| **q**     | Salir                                    |
+![Termux Help](images/20260621_171214_Help_Termux.jpg)
 
 ---
 
-## Cómo cargar el video
+## Program Controls
 
-Al iniciar, después de elegir idioma, aparece un selector de archivos.
+| Key       | Function                                  |
+| --------- | ----------------------------------------- |
+| Up / Down | Move between options                      |
+| Left / Right | Decrease/increase the selected value  |
+| **Enter** | Select/edit the highlighted option        |
+| **c**     | Recalculate estimated size                |
+| **f**     | Search video with the file picker         |
+| **r**     | Compress video / start process            |
+| **s**     | Stop while compressing                    |
+| **q**     | Exit                                      |
 
-Puedes navegar con las flechas:
+---
 
-* **↑ ↓**: moverse por carpetas y videos
-* **Enter**: abrir carpeta o elegir video
-* **q** o **ESC**: cancelar
+## How to Load a Video
 
-Una forma simple de usarlo es colocar el video en la carpeta del repositorio:
+After choosing the language, the file picker appears.
+
+You can navigate with the arrows:
+
+- **Up / Down**: move through folders and videos
+- **Enter**: open a folder or choose a video
+- **q** or **ESC**: cancel
+
+A simple way to use it is to place the video inside the repository folder:
 
 ```text
 whatsapp-termux-video-compressor
 ```
 
-Luego abre el programa y selecciona el video desde el selector.
+Then open the program and choose the video from the file picker.
 
-También puedes acceder a carpetas del teléfono si ya ejecutaste:
+You can also access phone folders after running:
 
 ```bash
 termux-setup-storage
 ```
 
-Después de elegir el video, presiona **c** para recalcular el tamaño estimado si cambias parámetros, **r** para iniciar la compresión y **s** para detenerla mientras está comprimiendo.
+After choosing the video, press **c** to recalculate the estimated size if you change parameters, **r** to start compression, and **s** to stop while it is compressing.
 
 ---
 
-## Parámetros que puedes cambiar
+## Parameters You Can Change
 
-En los valores numéricos, **←** disminuye y **→** aumenta. Esto aplica a bitrate de video, framerate, canales de audio, bitrate de audio y frecuencia de audio.
+For numeric values, **Left** decreases and **Right** increases. This applies to video bitrate, framerate, audio channels, audio bitrate, and audio sample rate.
 
-### Escala
+### Scale
 
-Cambia la resolución del video:
+Changes the video resolution:
 
-* Horizontal / Landscape → formato normal
-* Vertical / Portrait → para videos tipo TikTok / Reels
+- Horizontal / Landscape: normal format
+- Vertical / Portrait: for TikTok / Reels style videos
 
-En **Escala**, las flechas izquierda/derecha alternan entre las opciones disponibles.
+For **Scale**, the left/right arrows switch between the available options.
 
-Cuando la opción **Escala / Scale** está marcada, puedes cambiar entre `scale=512:288` y `scale=288:512` con **← →** o presionando **Enter**.
+When **Scale / Escala** is highlighted, you can switch between `scale=512:288` and `scale=288:512` with **Left / Right** or by pressing **Enter**.
 
-### Bitrate de video
+### Video Bitrate
 
-Controla la calidad del video.
-Más alto = mejor calidad = archivo más grande.
+Controls video quality.
+Higher value = better quality = larger file.
 
 ### Audio
 
-Puedes cambiar:
+You can change:
 
-* Canales (mono o estéreo)
-* Bitrate de audio
-* Frecuencia (sample rate)
+- Channels: mono or stereo
+- Audio bitrate
+- Sample rate
 
 ---
 
-## Por qué esos valores por defecto
+## Why These Defaults?
 
-El programa inicia con estos valores:
+The program starts with these values:
 
-| Parámetro | Valor por defecto | Motivo práctico |
-| --------- | ----------------- | --------------- |
-| Escala | `scale=512:288` | Baja la resolución para reducir mucho el peso del video. |
-| Bitrate video | `200k` | Mantiene una calidad aceptable para pantalla de teléfono sin hacer el archivo muy grande. |
-| Framerate | `15` | Reduce la cantidad de cuadros por segundo y baja el tamaño final. |
-| Canales audio | `1` | Usa audio mono; para voz o videos casuales suele ser suficiente y pesa menos que estéreo. |
-| Bitrate audio | `64k` | Da más margen de calidad que las pruebas antiguas de 18k-30k, pero sigue siendo liviano. |
-| Sample rate | `44100 Hz` | Es una frecuencia común y compatible para audio. |
+| Parameter | Default value | Practical reason |
+| --------- | ------------- | ---------------- |
+| Scale | `scale=512:288` | Reduces resolution to strongly reduce video size. |
+| Video bitrate | `200k` | Keeps acceptable quality on a phone screen without making the file too large. |
+| Framerate | `15` | Reduces frames per second and lowers final size. |
+| Audio channels | `1` | Uses mono audio; for voice or casual videos, it is often enough and smaller than stereo. |
+| Audio bitrate | `64k` | Gives more audio quality than the older 18k-30k tests while still staying light. |
+| Sample rate | `44100 Hz` | Common and compatible audio frequency. |
 
-Estos valores vienen de pruebas manuales antiguas hechas con FFmpeg/FFmulticonverter para poder enviar videos por WhatsApp cuando el límite era mucho más pequeño, alrededor de **16 MB**. En esas pruebas se usaban comandos como:
+These values come from older manual FFmpeg/FFmulticonverter tests made to send videos through WhatsApp when the limit was much smaller, around **16 MB**. Those tests used commands like:
 
 ```bash
 -vf "scale=512:288" -b:v 200k -r 15 -ac 1 -b:a 30k -ar 44100
 ```
 
-La idea era siempre la misma:
+The idea was always the same:
 
-* Reducir la resolución con `scale=512:288`.
-* Bajar el bitrate de video para controlar el tamaño.
-* Usar `15 fps` para reducir cuadros por segundo.
-* Convertir el audio a mono con `-ac 1`.
-* Usar un bitrate de audio bajo.
-* Mantener `44100 Hz` por compatibilidad.
+- Reduce resolution with `scale=512:288`.
+- Lower video bitrate to control size.
+- Use `15 fps` to reduce frames per second.
+- Convert audio to mono with `-ac 1`.
+- Use a low audio bitrate.
+- Keep `44100 Hz` for compatibility.
 
-Hoy WhatsApp permite enviar videos de mayor tamaño, por eso este programa usa valores un poco más cómodos, especialmente en audio (`64k` en vez de 18k-30k). Aun así, los valores por defecto siguen siendo un buen punto de partida porque comprimen bastante sin obligarte a calcular todo desde cero.
+Today WhatsApp allows larger video files, so this program uses slightly more comfortable defaults, especially for audio (`64k` instead of 18k-30k). Even so, the defaults are still a good starting point because they compress a lot without forcing you to calculate everything from scratch.
 
-Si el video queda muy grande, baja primero el **bitrate de video**. Si todavía necesitas reducir más, prueba bajar el **bitrate de audio** o usar un valor de video más bajo. Después presiona **c** para recalcular el tamaño estimado.
+If the video is still too large, lower the **video bitrate** first. If you still need to reduce more, try lowering the **audio bitrate** or using a lower video value. Then press **c** to recalculate the estimated size.
 
 ---
 
-## Bitrate manual (¡función avanzada!)
+## Manual Bitrate (Advanced)
 
-Puedes escribir cualquier bitrate:
+You can type any bitrate:
 
-1. Ponte sobre **Bitrate video** o **Bitrate audio**
-2. Presiona **Enter**
-3. Escribe el número
-4. Se guarda para siempre
+1. Move to **Video bitrate** or **Audio bitrate**.
+2. Press **Enter**.
+3. Type the number.
+4. It is saved permanently.
 
-Estos valores se guardan en:
+These values are saved in:
 
-```
+```text
 custom_bitrates.json
 ```
 
 ---
 
-## ¿Cuántos formatos de video acepta este programa?
+## How Many Video Formats Does It Accept?
 
-Realmente **no limita formatos**.
-Quien manda aquí es **FFmpeg**.
+The program does not really limit formats.
+**FFmpeg** handles that.
 
-FFmpeg Acepta **casi todos los formatos de video que existen**.
+FFmpeg supports almost every common video format.
 
-### 📌 Ejemplos de formatos que FFmpeg suele soportar:
+### Common Formats FFmpeg Usually Supports
 
-| Tipo        | Formatos comunes         |
-| ----------- | ------------------------ |
-| 📱 Móvil    | MP4, 3GP, MOV            |
-| 💻 PC       | AVI, MKV, WMV            |
-| 🌐 Internet | WEBM, FLV                |
-| 📺 TV/HD    | MPEG, MPG, TS, MTS, M2TS |
-| 🎥 Cámaras  | MOV, MTS, MXF            |
+| Type     | Common formats          |
+| -------- | ----------------------- |
+| Mobile   | MP4, 3GP, MOV           |
+| PC       | AVI, MKV, WMV           |
+| Internet | WEBM, FLV               |
+| TV/HD    | MPEG, MPG, TS, MTS, M2TS |
+| Cameras  | MOV, MTS, MXF           |
 
 ---
 
-### ¿Por qué acepta tantos?
+### Why So Many?
 
-Porque el programa solo hace:
+Because the program simply runs:
 
 ```bash
-ffmpeg -i archivo
+ffmpeg -i file
 ```
 
-Y FFmpeg detecta el formato automáticamente.
+and FFmpeg detects the format automatically.
 
 ---
 
-## Cálculo de tamaño estimado
+## Estimated Size Calculation
 
-El programa calcula cuánto pesará el video antes de comprimir.
+The program estimates how large the video will be before compressing.
 
-Además, aprende con el tiempo usando:
+It also learns over time using:
 
-```
+```text
 correction_factor.json
 ```
 
-Cada conversión mejora la precisión del cálculo.
+Each conversion improves the estimate precision.
 
-Formato:
+Format:
 
 ```json
 {
@@ -334,35 +335,35 @@ Formato:
 }
 ```
 
-* `factor`: multiplicador usado para ajustar la estimación.
-* `n`: cantidad de conversiones usadas para calcular ese factor.
+- `factor`: multiplier used to adjust the estimate.
+- `n`: number of conversions used to calculate that factor.
 
-Este archivo no se sube a GitHub porque es generado por el programa y depende de las conversiones hechas en cada teléfono.
+This file is not uploaded to GitHub because it is generated by the program and depends on conversions made on each phone.
 
 ---
 
-## Archivos locales ignorados
+## Ignored Local Files
 
-Estos archivos se guardan localmente, pero están excluidos en `.gitignore`:
+These files are stored locally but excluded in `.gitignore`:
 
 ```text
 correction_factor.json
 custom_bitrates.json
 ```
 
-La razón es que ambos contienen datos generados o preferencias personales del usuario:
+Both contain generated data or personal user preferences:
 
-* `correction_factor.json`: cambia después de comprimir videos y ajusta la estimación según resultados reales.
-* `custom_bitrates.json`: guarda bitrates manuales agregados por el usuario.
+- `correction_factor.json`: changes after compressing videos and adjusts estimates based on real results.
+- `custom_bitrates.json`: saves manual bitrates added by the user.
 
-Para documentar el formato sin subir datos locales, el repositorio incluye:
+To document the format without uploading local data, the repository includes:
 
 ```text
 correction_factor.example.json
 custom_bitrates.example.json
 ```
 
-Formato de `custom_bitrates.json`:
+Format of `custom_bitrates.json`:
 
 ```json
 {
@@ -371,18 +372,18 @@ Formato de `custom_bitrates.json`:
 }
 ```
 
-* `video`: lista de bitrates de video personalizados en kbit/s.
-* `audio`: lista de bitrates de audio personalizados en kbit/s.
+- `video`: list of custom video bitrates in kbit/s.
+- `audio`: list of custom audio bitrates in kbit/s.
 
 ---
 
-## Archivos de salida
+## Output Files
 
-Nunca se sobrescriben videos.
+Videos are never overwritten.
 
-Ejemplo:
+Example:
 
-```
+```text
 video.mp4
 video_compressed.mp4
 video_compressed_1.mp4
@@ -391,18 +392,18 @@ video_compressed_2.mp4
 
 ---
 
-## Tecnologías usadas
+## Technologies Used
 
-* 🐍 Python
-* 🎥 FFmpeg
-* 🖥 curses (interfaz de texto)
-* 📱 Termux (Linux en Android)
+- Python
+- FFmpeg
+- curses text interface
+- Termux on Android
 
 ---
 
-## Autor
+## Author
 
-Proyecto educativo para compresión de video en Android usando herramientas libres.
+Educational project for video compression on Android using free tools.
 
 - Washington Indacochea Delgado
 
