@@ -909,15 +909,15 @@ def main_screen(stdscr) -> None:
             if key == "scale":
                 state.scale_idx = (state.scale_idx + direction) % len(SCALE_OPTIONS)
             elif key == "vbr":
-                state.vbr_idx = (state.vbr_idx + direction) % len(video_bitrates)
+                state.vbr_idx = (state.vbr_idx - direction) % len(video_bitrates)
             elif key == "fr":
                 state.fr_idx = (state.fr_idx + direction) % len(FRAMERATES)
             elif key == "ac":
                 state.ac_idx = (state.ac_idx + direction) % len(AUDIO_CHANNELS)
             elif key == "abr":
-                state.abr_idx = (state.abr_idx + direction) % len(audio_bitrates)
+                state.abr_idx = (state.abr_idx - direction) % len(audio_bitrates)
             elif key == "sr":
-                state.sr_idx = (state.sr_idx + direction) % len(SAMPLE_RATES)
+                state.sr_idx = (state.sr_idx - direction) % len(SAMPLE_RATES)
             calc_estimate(state, video_bitrates, audio_bitrates, lang)
 
         elif ch in (10, 13, curses.KEY_ENTER):
