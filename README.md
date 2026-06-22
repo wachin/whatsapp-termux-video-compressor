@@ -403,7 +403,7 @@ Educational project for video compression on Android using free tools.
 
 - Washington Indacochea Delgado
 
-Under ![GPL3 License](LICENSE)
+Under [GPL3 License](LICENSE)
 
 ---
 
