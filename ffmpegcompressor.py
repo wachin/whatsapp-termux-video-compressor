@@ -446,11 +446,13 @@ def show_termux_help(stdscr, lang: str) -> None:
         stdscr.refresh()
 
         ch = stdscr.getch()
-        if ch == curses.KEY_UP and top > 0:
-            top -= 1
-        elif ch == curses.KEY_DOWN and top < max_top:
-            top += 1
-        else:
+        if ch == curses.KEY_UP:
+            if top > 0:
+                top -= 1
+        elif ch == curses.KEY_DOWN:
+            if top < max_top:
+                top += 1
+        elif ch in (ord("q"), ord("Q"), 27, 10, 13, curses.KEY_ENTER):
             return
 
 
